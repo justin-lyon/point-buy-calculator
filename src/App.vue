@@ -1,17 +1,36 @@
 <template>
-  <div id="app">
-    <h1>App</h1>
-		<app-dashboard></app-dashboard>
-  </div>
+ <v-app>
+	 <v-content>
+		<app-header></app-header>
+		<v-container fluid grid-list-xs>
+			<v-layout wrap>
+				<v-flex xs12>
+				</v-flex>
+				<v-flex
+					class="py-3"
+					xs12
+					md10 offset-md1
+					lg8 offset-lg2 >
+
+					<transition name="slide-x-reverse-transition" mode="out-in">
+						<router-view></router-view>
+					</transition>
+				</v-flex>
+			</v-layout>
+		</v-container>
+		<app-footer></app-footer>
+	 </v-content>
+ </v-app>
 </template>
 
 <script>
-import Dashboard from "./components/Dashboard";
-
+import Header from "./components/shared/Header";
+import Footer from "./components/shared/Footer";
 export default {
 	name: 'app',
 	components: {
-		appDashboard: Dashboard
+		appHeader: Header,
+		appFooter: Footer
 	}
 }
 </script>

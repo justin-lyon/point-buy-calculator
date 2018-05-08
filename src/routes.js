@@ -1,12 +1,12 @@
 import VueRouter from "vue-router";
 import store from "./store/store";
 
-import Dashboard from "./components/Dashboard";
+import PointBuy from "./components/PointBuyPage";
 
 const routes = [
 	{
 		path: "/",
-		component: Dashboard,
+		component: PointBuy,
 	},
 	{
 		path: "*",
