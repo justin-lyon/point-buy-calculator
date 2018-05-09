@@ -66,7 +66,6 @@
 								@blur="$v.selectedAbilities.$touch()"
 								:error="$v.selectedAbilities.$error"
 								:rules="[
-								() => $v.selectedAbilities.minLength || 'Pick Two.',
 								() => $v.selectedAbilities.maxLength || 'Pick Two.']"
 								></v-checkbox>
 						</v-flex>
@@ -141,7 +140,14 @@ export default {
 		bonuses() {
 			const race = races.find(r => r.name === this.selectedRace.toLowerCase());
 			const bonuses = race.subRaces ? race.subRaces.find(sr => sr.name === this.selectedSubRace.toLowerCase()).bonuses : race.bonuses;
-			return bonuses ? bonuses : this.selectedAbilities.map(ab => ({ name: ab.toLowerCase(), value: 1 }));
+
+			const returnable = [];
+			if(this.selectedRace === 'Half-elf') {
+				const selectedBonuses = this.selectedAbilities.map(ab => ({ name: ab.toLowerCase(), value: 1 }));
+				returnable.push(...selectedBonuses);
+			}
+			returnable.push(...bonuses);
+			return returnable;
 		},
 	},
 

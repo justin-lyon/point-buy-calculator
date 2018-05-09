@@ -102,6 +102,9 @@ export const races = [
 	},
 	{
 		name: "half-elf",
+		bonuses: [
+			{ name: "charisma", value: 2 }
+		]
 	},
 	{
 		name: "half-orc",
