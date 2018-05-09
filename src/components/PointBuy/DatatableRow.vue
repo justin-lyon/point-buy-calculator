@@ -1,16 +1,25 @@
 <template>
 	<tr>
 		<th class="text-xs-center">{{ ability.name | truncate(3) | capitalize }}</th>
-		<td class="text-xs-center" >
-			<v-text-field
-				class="number-input"
-				v-model="ability.value"
-				type="number"
-				max="15"
-				min="8"
-				></v-text-field>
+		<td>
+			<div class="">
+				<v-text-field
+					class="number-input"
+					v-model="ability.value"
+					type="number"
+					:max="max"
+					min="8"
+					validate-on-blur
+					@blur="$v.abScore.$touch()"
+					:error="$v.abScore.$error"
+					:rules="[
+					() => $v.abScore.required || 'This field is required.',
+					() => $v.abScore.minValue || 'Minimum value is 8.',
+					() => $v.abScore.maxValue || 'Maximum value is 15.']"
+					></v-text-field>
+			</div>
 		</td>
-		<td class="text-xs-center" >1</td>
+		<td class="text-xs-center" :class="greenText" >{{ racialBonus }}</td>
 		<td class="text-xs-center" >{{ totalScore }}</td>
 		<td class="text-xs-center" :class="redText" >{{ modifier }}</td>
 		<td class="text-xs-center" >{{ cost }}</td>
@@ -18,11 +27,11 @@
 </template>
 
 <script>
-import calculator from "../../mixins/point-buy-calc";
+import { required, minValue, maxValue } from "vuelidate/lib/validators";
+import { costs } from "../../plugins/point-buy";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
-	mixins: [calculator],
-
 	data() {
 		return {
 			baseOptions: [ 8, 9, 10, 11, 12, 13, 14, 15 ]
@@ -33,35 +42,64 @@ export default {
 		ability: {
 			type: Object
 		},
-		race: {
-			type: Object
-		}
+		bonuses: {
+			type: Array
+		},
 	},
 
 	computed: {
+		...mapGetters([
+			"availablePoints",
+			"remainingPoints"
+		]),
+		abScore() {
+			return this.ability.value;
+		},
 		totalScore() {
-			if(!Number(this.ability.value)) return 0;
-			return Number(this.ability.value) + 1;
+			if(!Number(this.abScore)) return 0;
+			return Number(this.abScore) + this.racialBonus;
 		},
-
 		modifier() {
-			if(!Number(this.ability.value)) return 0;
-			return Math.floor((this.ability.value - 10) / 2);
+			if(!Number(this.abScore)) return 0;
+			return Math.floor((this.totalScore - 10) / 2);
 		},
-
 		cost() {
-			if(!Number(this.ability.value)) return 0;
+			if(!Number(this.abScore)) return 0;
 
-			const item = this.costs.find(m => m.score === Number(this.ability.value));
+			const item = costs.find(m => m.score === Number(this.abScore));
 
 			if(!item) return 0;
 
 			return item.cost;
 		},
-
 		redText() {
 			return this.modifier < 0 ? "subheading red--text" : "";
+		},
+		greenText() {
+			return this.racialBonus > 0 ? "subheading green--text" : "";
+		},
+		max() {
+			return this.remainingPoints > 0 ? 15 : 8;
+		},
+		racialBonus() {
+			const bonusItem = this.bonuses.find(b => b.name === this.ability.name);
+			console.log("bonusItem", bonusItem);
+			return bonusItem ? bonusItem.value : 0;
 		}
+	},
+
+	methods: {
+		...mapMutations([
+			"setAbility"
+		]),
+	},
+
+	validations: {
+		abScore: {
+			required,
+			minValue: minValue(8),
+			maxValue: maxValue(15),
+		},
 	},
 
 	filters: {

@@ -10,7 +10,7 @@
 			slot="items"
 			slot-scope="props"
 			:ability="props.item"
-			:race="race"
+			:bonuses="bonuses"
 			></app-row>
 	</v-data-table>
 </template>
@@ -34,8 +34,8 @@ export default {
 		abilities: {
 			type: Array
 		},
-		race: {
-			type: Object
+		bonuses: {
+			type: Array
 		}
 	},
 	components: {
