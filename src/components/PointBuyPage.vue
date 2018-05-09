@@ -19,6 +19,7 @@
 							<v-text-field
 								label="Available"
 								v-model="available"
+								:disabled="remainingPoints === 0"
 								type="number"></v-text-field>
 						</v-flex>
 						<v-flex text-xs-center>
@@ -135,7 +136,7 @@ export default {
 			return subRaces;
 		},
 		abilityOptions() {
-			return this.abilityNames.map(name => capitalize(name), 3);
+			return this.abilityNames.filter(name => name !== "charisma").map(name => capitalize(name), 3);
 		},
 		bonuses() {
 			const race = races.find(r => r.name === this.selectedRace.toLowerCase());
