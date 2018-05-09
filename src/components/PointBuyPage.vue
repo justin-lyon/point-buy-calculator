@@ -50,6 +50,26 @@
 								:items="subRaceOptions"></v-select>
 						</v-flex>
 					</v-layout>
+
+					<v-layout row wrap v-if="selectedRace === 'Half-elf'">
+						<v-flex
+							xs4
+							v-for="ab in abilityOptions"
+							:key="ab">
+
+							<v-checkbox v-model="selectedAbilities"
+								:label="ab | truncate(3) | capitalize"
+								:value="ab"
+								validate-on-blur
+								:disabled="selectedAbilities.length >= 2 && selectedAbilities.indexOf(ab) === -1"
+								@blur="$v.selectedAbilities.$touch()"
+								:error="$v.selectedAbilities.$error"
+								:rules="[
+								() => $v.selectedAbilities.minLength || 'Pick Two.',
+								() => $v.selectedAbilities.maxLength || 'Pick Two.']"
+								></v-checkbox>
+						</v-flex>
+					</v-layout>
 				</v-flex>
 
 				<v-flex xs12>
@@ -66,7 +86,9 @@
 
 <script>
 import Table from "./PointBuy/Datatable";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { races } from "../plugins/point-buy";
+import { pascalizeWord, truncate, capitalize } from "../filters";
 
 import { mapGetters, mapMutations } from "vuex";
 
@@ -76,6 +98,7 @@ export default {
 		return {
 			selectedRace: "Human",
 			selectedSubRace: "",
+			selectedAbilities: []
 		};
 	},
 
@@ -83,6 +106,7 @@ export default {
 		...mapGetters([
 			"availablePoints",
 			"abilities",
+			"abilityNames",
 			"remainingPoints"
 		]),
 		available: {
@@ -100,7 +124,7 @@ export default {
 			return this.remainingPoints / this.available * 100;
 		},
 		raceOptions() {
-			return races.map(r => r.name.charAt(0).toUpperCase() + r.name.slice(1));
+			return races.map(r => pascalizeWord(r.name));
 		},
 		subRaceOptions() {
 			const race = this.selectedRace.toLowerCase();
@@ -110,18 +134,32 @@ export default {
 			this.selectedSubRace = subRaces[0];
 			return subRaces;
 		},
+		abilityOptions() {
+			return this.abilityNames.map(name => capitalize(name), 3);
+		},
 		bonuses() {
 			const race = races.find(r => r.name === this.selectedRace.toLowerCase());
 			const bonuses = race.subRaces ? race.subRaces.find(sr => sr.name === this.selectedSubRace.toLowerCase()).bonuses : race.bonuses;
-			console.log("selectedRace", this.selectedRace);
-			console.log("race", race);
-			console.log("bonuses", bonuses);
-			return bonuses;
+			return bonuses ? bonuses : this.selectedAbilities.map(ab => ({ name: ab.toLowerCase(), value: 1 }));
 		},
 	},
 
 	methods: {
 		...mapMutations(["setAvailable"]),
+	},
+
+	validations: {
+		selectedAbilities: {
+			required,
+			minLength: minLength(2),
+			maxLength: maxLength(2)
+		}
+	},
+
+	filters: {
+		pascalizeWord,
+		truncate,
+		capitalize
 	},
 
 	components: {

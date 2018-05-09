@@ -29,6 +29,7 @@
 <script>
 import { required, minValue, maxValue } from "vuelidate/lib/validators";
 import { costs } from "../../plugins/point-buy";
+import { truncate, capitalize } from "../../filters";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -82,9 +83,11 @@ export default {
 			return this.remainingPoints > 0 ? 15 : 8;
 		},
 		racialBonus() {
-			const bonusItem = this.bonuses.find(b => b.name === this.ability.name);
-			console.log("bonusItem", bonusItem);
-			return bonusItem ? bonusItem.value : 0;
+			if(this.bonuses) {
+				const bonusItem = this.bonuses.find(b => b.name === this.ability.name);
+				return bonusItem ? bonusItem.value : 0;
+			}
+			return 0;
 		}
 	},
 
@@ -103,13 +106,8 @@ export default {
 	},
 
 	filters: {
-		truncate(val, len) {
-			return val.substr(0, len);
-		},
-
-		capitalize(val) {
-			return val.toUpperCase();
-		}
+		truncate,
+		capitalize
 	},
 }
 </script>
