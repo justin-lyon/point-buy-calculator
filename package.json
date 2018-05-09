@@ -7,11 +7,10 @@
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production && npm run clean && webpack -p --config config/webpack.config.prod.js --hide-modules",
-    "build:heroku": "webpack -p --config config/webpack.config.prod.js --hide-modules",
     "clean": "rimraf dist",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot --config config/webpack.config.dev.js",
     "start": "node server/index.js",
-    "heroku-prebuild": "npm install -dev && npm run build:heroku",
+    "heroku-prebuild": "npm install -dev && npm run build",
     "heroku-postbuild": "npm uninstall -dev"
   },
   "dependencies": {
