@@ -9,6 +9,11 @@ export const costs = [
 	{ score: 15, cost: 9 }
 ];
 
+export const getCost = function(score) {
+	const costItem = costs.find(c => c.score === score);
+	return costItem ? costItem.cost : 0;
+};
+
 export const races = [
 	{
 		name: "dwarf",

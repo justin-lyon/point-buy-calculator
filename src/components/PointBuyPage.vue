@@ -74,7 +74,7 @@
 
 				<v-flex xs12>
 
-					<app-table :abilities="abilities" :bonuses="bonuses"></app-table>
+					<app-table :bonuses="bonuses"></app-table>
 
 				</v-flex>
 			</v-layout>
@@ -135,7 +135,7 @@ export default {
 			return subRaces;
 		},
 		abilityOptions() {
-			return this.abilityNames.filter(name => name !== "charisma").map(name => capitalize(name), 3);
+			return this.abilities.filter(name => name !== "charisma");
 		},
 		bonuses() {
 			const race = races.find(r => r.name === this.selectedRace.toLowerCase());
@@ -152,7 +152,9 @@ export default {
 	},
 
 	methods: {
-		...mapMutations(["setAvailable"]),
+		...mapMutations({
+			setAvailable: "availablePoints"
+		}),
 	},
 
 	validations: {

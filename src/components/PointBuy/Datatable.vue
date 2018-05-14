@@ -9,7 +9,7 @@
 		<app-row
 			slot="items"
 			slot-scope="props"
-			:ability="props.item"
+			:abilityName="props.item"
 			:bonuses="bonuses"
 			></app-row>
 	</v-data-table>
@@ -31,11 +31,13 @@ export default {
 		}
 	},
 	props: {
-		abilities: {
-			type: Array
-		},
 		bonuses: {
 			type: Array
+		}
+	},
+	computed: {
+		abilities() {
+			return this.$store.getters.abilities;
 		}
 	},
 	components: {
@@ -43,4 +45,3 @@ export default {
 	}
 }
 </script>
-

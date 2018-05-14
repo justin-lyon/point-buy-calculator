@@ -1,44 +1,52 @@
-import { costs, races } from "../../plugins/point-buy";
+import { getCost, races } from "../../plugins/point-buy";
 
 const state = {
 	availablePoints: 27,
 	abilities: [
-		{ name: "strength", value: 8 },
-		{ name: "dexterity", value: 8 },
-		{ name: "constitution", value: 8 },
-		{ name: "intelligence", value: 8 },
-		{ name: "wisdom", value: 8 },
-		{ name: "charisma", value: 8 }
+		"strength",
+		"dexterity",
+		"constitution",
+		"intelligence",
+		"wisdom",
+		"charisma"
 	],
+	strength: 8,
+	dexterity: 8,
+	constitution: 8,
+	intelligence: 8,
+	wisdom: 8,
+	charisma: 8
 };
 
 const getters = {
-	availablePoints(state) {
-		return state.availablePoints;
-	},
-	abilities(state) {
-		return state.abilities;
-	},
-	abilityNames(state) {
-		return state.abilities.map(a => a.name);
-	},
+	availablePoints: state => state.availablePoints,
+	abilities: state => state.abilities,
+
+	strength: state => Number(state.strength),
+	dexterity: state => Number(state.dexterity),
+	constitution: state => Number(state.constitution),
+	intelligence: state => Number(state.intelligence),
+	wisdom: state => Number(state.wisdom),
+	charisma: state => Number(state.charisma),
+
 	remainingPoints(state) {
 		const spent = state.abilities.reduce((acc, a) => {
-			const costItem = costs.find(c => c.score === Number(a.value));
-			return acc += costItem ? Number(costItem.cost) : 0;
+			const cost = getCost(Number(state[a]));
+			return acc += Number(cost) ? cost : 0;
 		}, 0);
 		return Number(state.availablePoints - spent);
 	}
 };
 
 const mutations = {
-	setAvailable(state, value) {
-		state.availablePoints = value;
-	},
-	setAbility(state, ab) {
-		const index = state.abilities.indexOf(a => a.name === ab.name);
-		if(index > -1) state.abilities[index] = ab;
-	}
+	availablePoints: (state, value) => state.availablePoints = value,
+
+	strength: (state, value) => state.strength = Number(value),
+	dexterity: (state, value) => state.dexterity = Number(value),
+	constitution: (state, value) => state.constitution = Number(value),
+	intelligence: (state, value) => state.intelligence = Number(value),
+	wisdom: (state, value) => state.wisdom = Number(value),
+	charisma: (state, value) => state.charisma = Number(value),
 };
 
 const actions = {};
