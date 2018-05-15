@@ -4,3 +4,9 @@
 		<div>&copy; Justin Lyon {{ new Date().getFullYear() }}</div>
 	</v-footer>
 </template>
+
+<script>
+export default {
+	name: "Footer"
+}
+</script>

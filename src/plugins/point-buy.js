@@ -11,7 +11,7 @@ export const costs = [
 
 export const getCost = function(score) {
 	const costItem = costs.find(c => c.score === score);
-	return costItem ? costItem.cost : 0;
+	return costItem ? costItem.cost : "-";
 };
 
 export const races = [

@@ -18,6 +18,7 @@
 <script>
 import Row from "./DataTableRow";
 export default {
+	name: "PointBuyDatatable",
 	data() {
 		return {
 			headers: [

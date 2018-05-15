@@ -98,7 +98,8 @@ export default {
 		return {
 			selectedRace: "Human",
 			selectedSubRace: "",
-			selectedAbilities: []
+			selectedAbilities: [],
+			test: "strength"
 		};
 	},
 
@@ -170,7 +171,7 @@ export default {
 	},
 
 	components: {
-		appTable: Table
+		appTable: Table,
 	}
 }
 </script>

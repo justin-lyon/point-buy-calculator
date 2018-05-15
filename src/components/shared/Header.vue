@@ -11,6 +11,7 @@
 <script>
 import img from "../../assets/dnd-ampersand.png";
 export default {
+	name: "Header",
 	computed: {
 		image() {
 			return img;
