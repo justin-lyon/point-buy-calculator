@@ -86,7 +86,7 @@
 
 <script>
 import Table from "./PointBuy/Datatable";
-import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import { maxLength } from "vuelidate/lib/validators";
 import { races } from "../plugins/point-buy";
 import { pascalizeWord, truncate, capitalize } from "../filters";
 
@@ -159,8 +159,6 @@ export default {
 
 	validations: {
 		selectedAbilities: {
-			required,
-			minLength: minLength(2),
 			maxLength: maxLength(2)
 		}
 	},

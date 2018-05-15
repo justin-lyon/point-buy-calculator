@@ -39,7 +39,7 @@ const getters = {
 };
 
 const mutations = {
-	availablePoints: (state, value) => state.availablePoints = value,
+	availablePoints: (state, value) => state.availablePoints = Number(value),
 
 	strength: (state, value) => state.strength = Number(value),
 	dexterity: (state, value) => state.dexterity = Number(value),

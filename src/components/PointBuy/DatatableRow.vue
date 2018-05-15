@@ -5,8 +5,7 @@
 			<div class="">
 				<v-text-field
 					class="number-input"
-					:value="score"
-					@input.native="evaluateScore($event)"
+					v-model="score"
 					type="number"
 					:max="max"
 					min="8"
@@ -30,9 +29,8 @@
 <script>
 import { required, minValue, maxValue } from "vuelidate/lib/validators";
 import { getCost } from "../../plugins/point-buy";
-import { isUnderRemaining } from "../../directives";
 import { truncate, capitalize } from "../../filters";
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
 	props: {
@@ -82,9 +80,15 @@ export default {
 		greenText() {
 			return this.racialBonus > 0 ? "subheading green--text" : "";
 		},
+
 		max() {
-			return this.remainingPoints > 0 ? 15 : this.score;
+			const thisCost = getCost(Number(this.score));
+			const nextCost = getCost(Number(this.score + 1));
+			const costDiff = thisCost - nextCost;
+
+			return this.remainingPoints + costDiff >= 0 ? 15 : this.score;
 		},
+
 		racialBonus() {
 			if(this.bonuses) {
 				const bonusItem = this.bonuses.find(b => b.name === this.abilityName);
@@ -92,28 +96,6 @@ export default {
 			}
 			return 0;
 		}
-	},
-
-	methods: {
-		evaluateScore(event) {
-			const newValue = Number(event.target.value);
-			const oldCost = getCost(this.score);
-			const newCost = getCost(newValue);
-			const costDiff = oldCost - newCost;
-
-			console.log("event", event);
-			console.log("event.t", event.target);
-			console.log("score", this.score, oldCost);
-			console.log("event.t.v", newValue, newCost);
-			console.log("remaining", this.remainingPoints, costDiff, this.remainingPoints + costDiff);
-
-			if(this.remainingPoints + costDiff >= 0) {
-				this.score = newValue;
-			} else {
-				console.log("else");
-				event.target["value"] = this.score;
-			}
-		},
 	},
 
 	validations: {
@@ -124,10 +106,6 @@ export default {
 		},
 	},
 
-	directives: {
-		"valid-number": { ...isUnderRemaining }
-	},
-
 	filters: {
 		truncate,
 		capitalize
@@ -136,6 +114,7 @@ export default {
 </script>
 <style scoped>
 .number-input {
+	margin-left: 25%;
 	max-width: 50%;
 }
 </style>
