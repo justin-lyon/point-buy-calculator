@@ -47,7 +47,13 @@
 					</v-flex>
 				</v-layout>
 
-				<v-layout row>
+				<v-layout row v-if="$vuetify.breakpoint.smAndDown">
+					<v-flex xs12>
+						<app-grid :bonuses="bonuses"></app-grid>
+					</v-flex>
+				</v-layout>
+
+				<v-layout row v-if="$vuetify.breakpoint.mdAndUp">
 					<v-flex xs12>
 						<app-table :bonuses="bonuses"></app-table>
 					</v-flex>
@@ -62,6 +68,7 @@
 <script>
 import Gauge from "./PointBuy/RemainingGauge";
 import Table from "./PointBuy/Datatable";
+import Grid from "./PointBuy/AbilityGrid";
 
 import { maxLength } from "vuelidate/lib/validators";
 import { races } from "../plugins/point-buy";
@@ -143,6 +150,7 @@ export default {
 
 	components: {
 		appGauge: Gauge,
+		appGrid: Grid,
 		appTable: Table,
 	}
 }

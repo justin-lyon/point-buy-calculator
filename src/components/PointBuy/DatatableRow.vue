@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import AbilityInput from "../shared/AbilityInput";
 import { required, minValue, maxValue } from "vuelidate/lib/validators";
 import { getCost } from "../../plugins/point-buy";
 import { truncate, capitalize } from "../../filters";
@@ -122,10 +121,6 @@ export default {
 		truncate,
 		capitalize
 	},
-
-	components: {
-		appInput: AbilityInput
-	}
 }
 </script>
 <style scoped>
