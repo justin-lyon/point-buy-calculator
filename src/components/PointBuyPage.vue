@@ -55,7 +55,9 @@
 
 				<v-layout row v-if="$vuetify.breakpoint.smAndDown">
 					<v-flex xs12>
-						<app-grid :bonuses="bonuses"></app-grid>
+						<app-grid :bonuses="bonuses"
+							:activeAbility="activeAbility"
+							@focused="handleFocusedAbility"></app-grid>
 					</v-flex>
 				</v-layout>
 
@@ -66,6 +68,8 @@
 				</v-layout>
 
 			</v-container>
+			<app-buttons v-if="activeAbility"
+				:abilityName="activeAbility"></app-buttons>
 
 		</v-card-text>
 	</v-card>
@@ -75,6 +79,7 @@
 import Gauge from "./PointBuy/RemainingGauge";
 import Table from "./PointBuy/Datatable";
 import Grid from "./PointBuy/AbilityGrid";
+import Buttons from "./PointBuy/AbilityButtons";
 
 import { maxLength } from "vuelidate/lib/validators";
 import { races } from "../plugins/point-buy";
@@ -89,6 +94,7 @@ export default {
 			selectedRace: "Human",
 			selectedSubRace: "",
 			selectedAbilities: [],
+			activeAbility: "",
 		};
 	},
 
@@ -139,6 +145,12 @@ export default {
 		...mapMutations({
 			setAvailable: "availablePoints"
 		}),
+		handleEvent(event) {
+			console.log("event", event);
+		},
+		handleFocusedAbility(ab) {
+			this.activeAbility = ab;
+		}
 	},
 
 	validations: {
@@ -157,6 +169,7 @@ export default {
 		appGauge: Gauge,
 		appGrid: Grid,
 		appTable: Table,
+		appButtons: Buttons,
 	}
 }
 </script>
