@@ -117,13 +117,13 @@ export default {
 	mounted() {
 		// I hate this.
 		// Disable keystrokes within input[number] except arrow up/down, tab, and shift
-		const input = document.getElementById(this.inputName).querySelector("input");
-		input.addEventListener("keydown", event => {
-			const keyCode = event.keyCode;
-			if((keyCode > 47 && keyCode < 58) || (keyCode > 95 && keyCode < 105)) {
-				event.preventDefault();
-			}
-		});
+		// const input = document.getElementById(this.inputName).querySelector("input");
+		// input.addEventListener("keydown", event => {
+		// 	const keyCode = event.keyCode;
+		// 	if((keyCode > 47 && keyCode < 58) || (keyCode > 95 && keyCode < 105)) {
+		// 		event.preventDefault();
+		// 	}
+		// });
 	},
 
 	props: {

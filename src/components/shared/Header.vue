@@ -7,7 +7,7 @@
 		<v-toolbar-title>Pretty Point Buy</v-toolbar-title>
 		<v-spacer></v-spacer>
 
-		<v-flex xs1>
+		<v-flex xs1 v-if="$vuetify.breakpoint.smAndDown">
 			<app-gauge :size="size" ></app-gauge>
 		</v-flex>
 	</v-toolbar>
