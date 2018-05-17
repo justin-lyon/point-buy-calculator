@@ -2,10 +2,8 @@
  <v-app>
 	 <v-content>
 		<app-header></app-header>
-		<v-container fluid grid-list-xs>
+		<v-container class="container" fluid grid-list-xs>
 			<v-layout wrap>
-				<v-flex xs12>
-				</v-flex>
 				<v-flex
 					class="py-3"
 					xs12
@@ -34,3 +32,10 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+.container {
+	margin-top: 64px;
+	margin-bottom: 70px;
+}
+</style>

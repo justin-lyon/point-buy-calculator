@@ -12,7 +12,7 @@
 			<v-container fluid grid-list-xl>
 			<v-layout wrap>
 				<v-flex xs12
-					md8 offset-md2
+					md12
 					lg6 offset-lg3>
 					<v-layout row >
 						<v-flex xs6>
@@ -35,7 +35,7 @@
 				</v-flex>
 
 				<v-flex xs12
-					md8 offset-md2
+					md12
 					lg6 offset-lg3>
 					<v-layout row >
 						<v-flex xs6 >

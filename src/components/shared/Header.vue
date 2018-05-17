@@ -1,5 +1,5 @@
 <template>
-	<v-toolbar>
+	<v-toolbar fixed>
 		<v-avatar
 			size="36px">
 			<img :src="image" alt="dnd-ampersand">
