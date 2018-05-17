@@ -14,7 +14,7 @@
 
 						<v-flex xs12 md6 lg4 v-if="$vuetify.breakpoint.mdAndUp">
 							<div class="text-xs-center" >
-								<app-gauge size="100"></app-gauge>
+								<app-gauge size="100" :width="15" ></app-gauge>
 							</div>
 						</v-flex>
 				</v-layout>
@@ -89,7 +89,6 @@ export default {
 			selectedRace: "Human",
 			selectedSubRace: "",
 			selectedAbilities: [],
-			test: "strength"
 		};
 	},
 
