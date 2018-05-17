@@ -10,7 +10,7 @@
 					:max="max"
 					min="8"
 					validate-on-blur
-					@change="$v.score.$touch();"
+					@input="$v.score.$touch();"
 					:error="$v.score.$error"
 					:rules="[
 					() => $v.score.required || 'This field is required.',
@@ -36,16 +36,16 @@ import { mapGetters } from "vuex";
 export default {
 	name: "PointBuyDatatableRow",
 
-	// mounted() {
-	// 	const root = document.getElementById(this.rowName);
-	// 	const input = root.querySelector("input");
-	// 	input.addEventListener("keydown", event => {
-	// 		const keyCode = event.keyCode;
-	// 		if(!(keyCode === 38 || keyCode === 40 || keyCode === 9 || keyCode === 16)) {
-	// 			event.preventDefault();
-	// 		}
-	// 	});
-	// },
+	mounted() { // I hate this.
+		// Disable keystrokes within input[number] except arrow up/down, tab, and shift
+		const input = document.getElementById(this.rowName).querySelector("input");
+		input.addEventListener("keydown", event => {
+			const keyCode = event.keyCode;
+			if(!(keyCode === 38 || keyCode === 40 || keyCode === 9 || keyCode === 16)) {
+				event.preventDefault();
+			}
+		});
+	},
 
 	props: {
 		abilityName: {
@@ -70,18 +70,13 @@ export default {
 			}
 		},
 		totalScore() {
-			//if(!Number(this.score)) return 0;
 			return Number(this.score) + this.racialBonus;
 		},
 		modifier() {
-			//if(!Number(this.score)) return 0;
 			return Math.floor((this.totalScore - 10) / 2);
 		},
 		cost() {
-			//if(!Number(this.score)) return 0;
-
 			const cost = getCost(Number(this.score));
-
 			return cost;
 		},
 		redText() {
@@ -92,12 +87,6 @@ export default {
 		},
 
 		max() {
-			if(this.score < 8 || this.score === "") {
-				this.score = 8;
-			} else if (this.score > 15) {
-				this.score = 15;
-			}
-
 			const thisCost = getCost(Number(this.score));
 			const nextCost = getCost(Number(this.score + 1));
 			const costDiff = thisCost - nextCost;
