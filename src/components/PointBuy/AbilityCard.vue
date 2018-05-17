@@ -17,21 +17,16 @@
 								</v-list-tile-content>
 							</v-list-tile>
 
-							<v-list-tile :id="inputName">
-								<v-list-tile-content >
-									<v-text-field
-										v-model.number="score"
-										type="number"
-										:max="max"
-										min="8"
-										validate-on-blur
-										@input="$v.score.$touch();"
-										:error="$v.score.$error"
-										:rules="[
-										() => $v.score.required || 'This field is required.',
-										() => $v.score.minValue || 'Minimum value is 8.',
-										() => $v.score.maxValue || `Maximum value is ${max}.`]"
-										></v-text-field>
+							<v-list-tile >
+								<v-list-tile-content>
+									<v-list-tile-title>
+										<span >{{ score }}</span>
+									</v-list-tile-title>
+									<v-list-tile-sub-title>
+										<span class="grey--text text--lighten-1">
+											Base
+										</span>
+									</v-list-tile-sub-title>
 								</v-list-tile-content>
 							</v-list-tile>
 
@@ -118,13 +113,6 @@ import { mapGetters } from "vuex";
 export default {
 	name: "PointBuyDatatableRow",
 
-	mounted() {
-		// I hate this.
-		// Disable keystrokes within input[number] except arrow up/down, tab, and shift
-		const input = document.getElementById(this.inputName).querySelector("input");
-		input.addEventListener("focus", this.openButtons);
-	},
-
 	props: {
 		abilityName: {
 			type: String
@@ -189,12 +177,8 @@ export default {
 	},
 
 	methods: {
-		openButtons() {
-			this.$emit("focused", this.abilityName);
-		},
 		focusInput(event) {
-			const input = document.getElementById(this.inputName).querySelector("input");
-			input.focus();
+			this.$emit("focused", this.abilityName);
 		}
 	},
 
