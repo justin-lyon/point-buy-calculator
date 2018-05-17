@@ -1,83 +1,64 @@
 <template>
 	<v-card>
-		<v-card-title primary-title>
-			<div>
-				<h3>Ability Score Point Buy Calculator</h3>
-			</div>
-		</v-card-title>
-
-		<v-divider></v-divider>
 		<v-card-text>
-
 			<v-container fluid grid-list-xl>
-			<v-layout wrap>
-				<v-flex xs12
-					md8 offset-md2
-					lg6 offset-lg3>
-					<v-layout row >
-						<v-flex xs6>
+				<v-layout row justify-center>
+					<v-flex x12 md6 lg4>
 							<v-text-field
-								label="Available"
+								label="Total Available"
 								v-model="available"
-								:disabled="remainingPoints === 0"
-								type="number"></v-text-field>
+								type="number"
+								max="999"
+								min="1"></v-text-field>
 						</v-flex>
-						<v-flex text-xs-center>
-							<v-progress-circular
-								:value="remainingPercent"
-								size="48"
-								color="green">
+				</v-layout>
 
-								{{ remainingPoints }}
-							</v-progress-circular>
-						</v-flex>
-					</v-layout>
-				</v-flex>
-
-				<v-flex xs12
-					md8 offset-md2
-					lg6 offset-lg3>
-					<v-layout row >
-						<v-flex xs6 >
+				<v-layout row justify-center>
+					<v-flex xs12 md6 lg4 >
 							<v-select
 								label="Race"
 								v-model="selectedRace"
 								:items="raceOptions"></v-select>
 						</v-flex>
-						<v-flex xs6 v-if="subRaceOptions">
+						<v-flex xs12 md6 lg4 v-if="subRaceOptions">
 							<v-select
 								label="Subrace"
 								v-model="selectedSubRace"
 								:items="subRaceOptions"></v-select>
 						</v-flex>
-					</v-layout>
+				</v-layout>
 
-					<v-layout row wrap v-if="selectedRace === 'Half-elf'">
-						<v-flex
-							xs4
-							v-for="ab in abilityOptions"
-							:key="ab">
+				<v-layout row wrap justify-center v-if="selectedRace === 'Half-elf'">
+					<v-flex
+						xs4 md2
+						v-for="ab in abilityOptions"
+						:key="ab">
 
-							<v-checkbox v-model="selectedAbilities"
-								:label="ab | truncate(3) | capitalize"
-								:value="ab"
-								validate-on-blur
-								:disabled="selectedAbilities.length >= 2 && selectedAbilities.indexOf(ab) === -1"
-								@blur="$v.selectedAbilities.$touch()"
-								:error="$v.selectedAbilities.$error"
-								:rules="[
-								() => $v.selectedAbilities.maxLength || 'Pick Two.']"
-								></v-checkbox>
-						</v-flex>
-					</v-layout>
-				</v-flex>
+						<v-checkbox v-model="selectedAbilities"
+							:label="ab | truncate(3) | capitalize"
+							:value="ab"
+							validate-on-blur
+							:disabled="selectedAbilities.length >= 2 && selectedAbilities.indexOf(ab) === -1"
+							@blur="$v.selectedAbilities.$touch()"
+							:error="$v.selectedAbilities.$error"
+							:rules="[
+							() => $v.selectedAbilities.maxLength || 'Pick Two.']"
+							></v-checkbox>
+					</v-flex>
+				</v-layout>
 
-				<v-flex xs12>
+				<v-layout row v-if="$vuetify.breakpoint.smAndDown">
+					<v-flex xs12>
+						<app-grid :bonuses="bonuses"></app-grid>
+					</v-flex>
+				</v-layout>
 
-					<app-table :bonuses="bonuses"></app-table>
+				<v-layout row v-if="$vuetify.breakpoint.mdAndUp">
+					<v-flex xs12>
+						<app-table :bonuses="bonuses"></app-table>
+					</v-flex>
+				</v-layout>
 
-				</v-flex>
-			</v-layout>
 			</v-container>
 
 		</v-card-text>
@@ -85,7 +66,10 @@
 </template>
 
 <script>
+import Gauge from "./PointBuy/RemainingGauge";
 import Table from "./PointBuy/Datatable";
+import Grid from "./PointBuy/AbilityGrid";
+
 import { maxLength } from "vuelidate/lib/validators";
 import { races } from "../plugins/point-buy";
 import { pascalizeWord, truncate, capitalize } from "../filters";
@@ -117,12 +101,6 @@ export default {
 			set(val) {
 				this.setAvailable(val);
 			}
-		},
-		remaining() {
-			return this.available - 0;
-		},
-		remainingPercent() {
-			return this.remainingPoints / this.available * 100;
 		},
 		raceOptions() {
 			return races.map(r => pascalizeWord(r.name));
@@ -171,6 +149,8 @@ export default {
 	},
 
 	components: {
+		appGauge: Gauge,
+		appGrid: Grid,
 		appTable: Table,
 	}
 }
