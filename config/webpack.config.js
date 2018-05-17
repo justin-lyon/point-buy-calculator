@@ -67,7 +67,8 @@ module.exports = {
 			names: ["vendor", "manifest"]
 		}),
 		new HtmlWebpackPlugin({
-			template: path.join(ROOT, "index.html")
+			template: path.join(ROOT, "index.html"),
+			favicon: "favicon.ico"
 		})
 	],
 	resolve: {

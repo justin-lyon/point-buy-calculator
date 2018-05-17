@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import AbilityInput from "../shared/AbilityInput";
 import { required, minValue, maxValue } from "vuelidate/lib/validators";
 import { getCost } from "../../plugins/point-buy";
 import { truncate, capitalize } from "../../filters";
@@ -36,7 +35,8 @@ import { mapGetters } from "vuex";
 export default {
 	name: "PointBuyDatatableRow",
 
-	mounted() { // I hate this.
+	mounted() {
+		// I hate this.
 		// Disable keystrokes within input[number] except arrow up/down, tab, and shift
 		const input = document.getElementById(this.rowName).querySelector("input");
 		input.addEventListener("keydown", event => {
@@ -121,10 +121,6 @@ export default {
 		truncate,
 		capitalize
 	},
-
-	components: {
-		appInput: AbilityInput
-	}
 }
 </script>
 <style scoped>
