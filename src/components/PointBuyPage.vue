@@ -1,14 +1,7 @@
 <template>
 	<v-card>
-		<v-card-title primary-title>
-			<div>
-				<h3>Ability Score Point Buy Calculator</h3>
-			</div>
-		</v-card-title>
-
-		<v-divider></v-divider>
+		{{ $v }}
 		<v-card-text>
-
 			<v-container fluid grid-list-xl>
 			<v-layout wrap>
 				<v-flex xs12
@@ -17,13 +10,11 @@
 					<v-layout row >
 						<v-flex xs6>
 							<v-text-field
-								label="Available"
+								label="Total"
 								v-model="available"
-								:disabled="remainingPoints === 0"
-								type="number"></v-text-field>
-						</v-flex>
-						<v-flex text-xs-center>
-							<app-gauge ></app-gauge>
+								type="number"
+								max="999"
+								min="1"></v-text-field>
 						</v-flex>
 					</v-layout>
 				</v-flex>
@@ -46,9 +37,9 @@
 						</v-flex>
 					</v-layout>
 
-					<v-layout row wrap v-if="selectedRace === 'Half-elf'">
+					<v-layout justify-center wrap v-if="selectedRace === 'Half-elf'">
 						<v-flex
-							xs4
+							xs4 lg4
 							v-for="ab in abilityOptions"
 							:key="ab">
 

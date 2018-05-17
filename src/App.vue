@@ -32,10 +32,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-.container {
-	margin-top: 64px;
-	margin-bottom: 70px;
-}
-</style>

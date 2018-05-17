@@ -1,21 +1,49 @@
 <template>
-	<v-toolbar fixed>
-		<v-avatar
-			size="36px">
-			<img :src="image" alt="dnd-ampersand">
-		</v-avatar>
-		<v-toolbar-title>Pretty Point Buy</v-toolbar-title>
-	</v-toolbar>
+	<v-card>
+		<v-toolbar class="header" app >
+			<v-avatar
+				size="36px">
+				<img :src="image" alt="dnd-ampersand">
+			</v-avatar>
+			<v-toolbar-title>Pretty Point Buy</v-toolbar-title>
+			<v-spacer></v-spacer>
+
+			<v-flex xs1>
+				<v-progress-circular :size="size" >
+					{{ available }}
+				</v-progress-circular>
+			</v-flex>
+			<v-spacer></v-spacer>
+			<v-flex xs1>
+				<app-gauge :size="size" ></app-gauge>
+			</v-flex>
+		</v-toolbar>
+	</v-card>
 </template>
 
 <script>
+import Gauge from "../PointBuy/RemainingGauge";
 import img from "../../assets/dnd-ampersand.png";
+
 export default {
 	name: "Header",
+	data() {
+		return {
+			size: "36"
+		};
+	},
 	computed: {
 		image() {
 			return img;
+		},
+
+		available() {
+			return this.$store.getters.availablePoints;
 		}
+	},
+
+	components: {
+		appGauge: Gauge,
 	}
 }
 </script>
