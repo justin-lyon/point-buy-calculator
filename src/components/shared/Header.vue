@@ -1,25 +1,23 @@
 <template>
-	<v-card>
-		<v-toolbar class="header" app >
-			<v-avatar
-				size="36px">
-				<img :src="image" alt="dnd-ampersand">
-			</v-avatar>
-			<v-toolbar-title>Pretty Point Buy</v-toolbar-title>
-			<v-spacer></v-spacer>
+	<v-toolbar app >
+		<v-avatar
+			size="36px">
+			<img :src="image" alt="dnd-ampersand">
+		</v-avatar>
+		<v-toolbar-title>Pretty Point Buy</v-toolbar-title>
+		<v-spacer></v-spacer>
 
-			<v-flex xs1>
-				<v-progress-circular :size="size" >
-					{{ available }}
-				</v-progress-circular>
-			</v-flex>
-			<v-spacer v-if="$vuetify.breakpoint.smAndDown"></v-spacer>
-			<v-flex xs1>
-				<app-gauge :size="size" ></app-gauge>
-			</v-flex>
-			<v-spacer v-if="$vuetify.breakpoint.mdAndUp"></v-spacer>
-		</v-toolbar>
-	</v-card>
+		<v-flex xs1>
+			<v-progress-circular :size="size" >
+				{{ available }}
+			</v-progress-circular>
+		</v-flex>
+		<v-spacer v-if="$vuetify.breakpoint.smAndDown"></v-spacer>
+		<v-flex xs1>
+			<app-gauge :size="size" ></app-gauge>
+		</v-flex>
+		<v-spacer v-if="$vuetify.breakpoint.mdAndUp"></v-spacer>
+	</v-toolbar>
 </template>
 
 <script>
