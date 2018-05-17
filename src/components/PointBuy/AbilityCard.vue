@@ -1,5 +1,8 @@
 <template>
-	<v-card>
+<div @click="focusInput">
+	<v-card :raised="abilityName === activeAbility"
+		:flat="abilityName !== activeAbility"
+		ripple>
 			<v-container grid-list-xs>
 				<v-layout row>
 
@@ -103,6 +106,7 @@
 
 			</v-container>
 	</v-card>
+</div>
 </template>
 
 <script>
@@ -117,13 +121,8 @@ export default {
 	mounted() {
 		// I hate this.
 		// Disable keystrokes within input[number] except arrow up/down, tab, and shift
-		// const input = document.getElementById(this.inputName).querySelector("input");
-		// input.addEventListener("keydown", event => {
-		// 	const keyCode = event.keyCode;
-		// 	if((keyCode > 47 && keyCode < 58) || (keyCode > 95 && keyCode < 105)) {
-		// 		event.preventDefault();
-		// 	}
-		// });
+		const input = document.getElementById(this.inputName).querySelector("input");
+		input.addEventListener("focus", this.openButtons);
 	},
 
 	props: {
@@ -133,6 +132,9 @@ export default {
 		bonuses: {
 			type: Array
 		},
+		activeAbility: {
+			type: String
+		}
 	},
 
 	computed: {
@@ -183,6 +185,16 @@ export default {
 
 		inputName() {
 			return "abCard-" + this.abilityName;
+		}
+	},
+
+	methods: {
+		openButtons() {
+			this.$emit("focused", this.abilityName);
+		},
+		focusInput(event) {
+			const input = document.getElementById(this.inputName).querySelector("input");
+			input.focus();
 		}
 	},
 

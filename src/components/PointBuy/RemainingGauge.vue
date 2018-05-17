@@ -2,9 +2,10 @@
 	<v-progress-circular
 		:value="remainingPercent"
 		:size="size"
+		:width="width"
 		:color="color">
 
-		{{ remainingPoints }}
+		<strong>{{ remainingPoints }}</strong>
 	</v-progress-circular>
 </template>
 
@@ -20,6 +21,10 @@ export default {
 		color: {
 			type: String,
 			default: "green"
+		},
+		width: {
+			type: Number,
+			default: 4
 		}
 	},
 	computed: {

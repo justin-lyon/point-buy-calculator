@@ -3,7 +3,11 @@
 		<v-layout row wrap >
 			<v-flex v-for="ab in abilities" :key="ab"
 				xs12 md6 lg4>
-				<app-card :abilityName="ab" :bonuses="bonuses" ></app-card>
+				<app-card
+					:abilityName="ab"
+					:bonuses="bonuses"
+					:activeAbility="activeAbility"
+					@focused="$emit('focused', $event)"></app-card>
 			</v-flex>
 		</v-layout>
 	</v-container>
@@ -28,6 +32,9 @@ export default {
 	props: {
 		bonuses: {
 			type: Array
+		},
+		activeAbility: {
+			type: String
 		}
 	},
 	computed: {
