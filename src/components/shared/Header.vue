@@ -8,15 +8,8 @@
 		<v-spacer></v-spacer>
 
 		<v-flex xs1>
-			<v-progress-circular :size="size" >
-				{{ available }}
-			</v-progress-circular>
-		</v-flex>
-		<v-spacer v-if="$vuetify.breakpoint.smAndDown"></v-spacer>
-		<v-flex xs1>
 			<app-gauge :size="size" ></app-gauge>
 		</v-flex>
-		<v-spacer v-if="$vuetify.breakpoint.mdAndUp"></v-spacer>
 	</v-toolbar>
 </template>
 
