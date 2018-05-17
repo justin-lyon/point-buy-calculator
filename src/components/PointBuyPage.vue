@@ -11,6 +11,12 @@
 								max="999"
 								min="1"></v-text-field>
 						</v-flex>
+
+						<v-flex xs12 md6 lg4 v-if="$vuetify.breakpoint.mdAndUp">
+							<div class="text-xs-center" >
+								<app-gauge size="100"></app-gauge>
+							</div>
+						</v-flex>
 				</v-layout>
 
 				<v-layout row justify-center>
