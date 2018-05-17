@@ -1,68 +1,58 @@
 <template>
 	<v-card>
-		{{ $v }}
 		<v-card-text>
 			<v-container fluid grid-list-xl>
-			<v-layout wrap>
-				<v-flex xs12
-					md12
-					lg6 offset-lg3>
-					<v-layout row >
-						<v-flex xs6>
+				<v-layout row justify-center>
+					<v-flex x12 md6 lg4>
 							<v-text-field
-								label="Total"
+								label="Total Available"
 								v-model="available"
 								type="number"
 								max="999"
 								min="1"></v-text-field>
 						</v-flex>
-					</v-layout>
-				</v-flex>
+				</v-layout>
 
-				<v-flex xs12
-					md12
-					lg6 offset-lg3>
-					<v-layout row >
-						<v-flex xs6 >
+				<v-layout row justify-center>
+					<v-flex xs12 md6 lg4 >
 							<v-select
 								label="Race"
 								v-model="selectedRace"
 								:items="raceOptions"></v-select>
 						</v-flex>
-						<v-flex xs6 v-if="subRaceOptions">
+						<v-flex xs12 md6 lg4 v-if="subRaceOptions">
 							<v-select
 								label="Subrace"
 								v-model="selectedSubRace"
 								:items="subRaceOptions"></v-select>
 						</v-flex>
-					</v-layout>
+				</v-layout>
 
-					<v-layout justify-center wrap v-if="selectedRace === 'Half-elf'">
-						<v-flex
-							xs4 lg4
-							v-for="ab in abilityOptions"
-							:key="ab">
+				<v-layout row wrap justify-center v-if="selectedRace === 'Half-elf'">
+					<v-flex
+						xs4 md2
+						v-for="ab in abilityOptions"
+						:key="ab">
 
-							<v-checkbox v-model="selectedAbilities"
-								:label="ab | truncate(3) | capitalize"
-								:value="ab"
-								validate-on-blur
-								:disabled="selectedAbilities.length >= 2 && selectedAbilities.indexOf(ab) === -1"
-								@blur="$v.selectedAbilities.$touch()"
-								:error="$v.selectedAbilities.$error"
-								:rules="[
-								() => $v.selectedAbilities.maxLength || 'Pick Two.']"
-								></v-checkbox>
-						</v-flex>
-					</v-layout>
-				</v-flex>
+						<v-checkbox v-model="selectedAbilities"
+							:label="ab | truncate(3) | capitalize"
+							:value="ab"
+							validate-on-blur
+							:disabled="selectedAbilities.length >= 2 && selectedAbilities.indexOf(ab) === -1"
+							@blur="$v.selectedAbilities.$touch()"
+							:error="$v.selectedAbilities.$error"
+							:rules="[
+							() => $v.selectedAbilities.maxLength || 'Pick Two.']"
+							></v-checkbox>
+					</v-flex>
+				</v-layout>
 
-				<v-flex xs12>
+				<v-layout row>
+					<v-flex xs12>
+						<app-table :bonuses="bonuses"></app-table>
+					</v-flex>
+				</v-layout>
 
-					<app-table :bonuses="bonuses"></app-table>
-
-				</v-flex>
-			</v-layout>
 			</v-container>
 
 		</v-card-text>
