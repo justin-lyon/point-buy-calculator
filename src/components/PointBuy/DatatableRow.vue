@@ -36,7 +36,8 @@ import { mapGetters } from "vuex";
 export default {
 	name: "PointBuyDatatableRow",
 
-	mounted() { // I hate this.
+	mounted() {
+		// I hate this.
 		// Disable keystrokes within input[number] except arrow up/down, tab, and shift
 		const input = document.getElementById(this.rowName).querySelector("input");
 		input.addEventListener("keydown", event => {
