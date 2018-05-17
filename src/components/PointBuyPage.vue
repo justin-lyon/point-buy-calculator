@@ -23,13 +23,7 @@
 								type="number"></v-text-field>
 						</v-flex>
 						<v-flex text-xs-center>
-							<v-progress-circular
-								:value="remainingPercent"
-								size="48"
-								color="green">
-
-								{{ remainingPoints }}
-							</v-progress-circular>
+							<app-gauge ></app-gauge>
 						</v-flex>
 					</v-layout>
 				</v-flex>
@@ -85,7 +79,9 @@
 </template>
 
 <script>
+import Gauge from "./PointBuy/RemainingGauge";
 import Table from "./PointBuy/Datatable";
+
 import { maxLength } from "vuelidate/lib/validators";
 import { races } from "../plugins/point-buy";
 import { pascalizeWord, truncate, capitalize } from "../filters";
@@ -117,12 +113,6 @@ export default {
 			set(val) {
 				this.setAvailable(val);
 			}
-		},
-		remaining() {
-			return this.available - 0;
-		},
-		remainingPercent() {
-			return this.remainingPoints / this.available * 100;
 		},
 		raceOptions() {
 			return races.map(r => pascalizeWord(r.name));
@@ -171,6 +161,7 @@ export default {
 	},
 
 	components: {
+		appGauge: Gauge,
 		appTable: Table,
 	}
 }
