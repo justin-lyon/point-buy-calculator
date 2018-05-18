@@ -21,14 +21,17 @@
 
 				<v-layout row justify-center>
 					<v-flex xs12
-						:md3="subRaceOptions"
-						:md6="!subRaceOptions"
-						:lg4="subRaceOptions"
-						:lg8="!subRaceOptions" >
+						:md3="subRaceOptions || race.name === 'human'"
+						:md6="!subRaceOptions && race.name !== 'human'"
+						:lg4="subRaceOptions || race.name === 'human'"
+						:lg8="!subRaceOptions && race.name !== 'human'" >
+
+
 						<v-select
 							label="Race"
 							v-model="selectedRace"
 							:items="raceOptions"></v-select>
+
 					</v-flex>
 					<v-flex xs12 md3 lg4 v-if="subRaceOptions">
 						<v-select
@@ -36,9 +39,16 @@
 							v-model="selectedSubRace"
 							:items="subRaceOptions"></v-select>
 					</v-flex>
+					<v-flex xs12 md3 lg4 v-if="race.name === 'human'">
+						<v-checkbox
+							class="shrink pt-3"
+							label="Variant"
+							v-model="isVariantHuman"
+							hide-details></v-checkbox>
+					</v-flex>
 				</v-layout>
 
-				<v-layout row wrap justify-center v-if="selectedRace === 'Half-elf'">
+				<v-layout row wrap justify-center v-if="showAbilitySelections">
 					<v-flex
 						xs4 md2
 						v-for="ab in abilityOptions"
@@ -54,7 +64,7 @@
 
 				<v-layout row v-if="$vuetify.breakpoint.smAndDown">
 					<v-flex xs12>
-						<app-accordion :bonuses="bonuses"
+						<app-accordion :bonuses="selectedBonuses"
 							:activeAbility="activeAbility"
 							@focused="handleFocusedAbility"></app-accordion>
 					</v-flex>
@@ -62,7 +72,7 @@
 
 				<v-layout row v-if="$vuetify.breakpoint.mdAndUp">
 					<v-flex xs12>
-						<app-table :bonuses="bonuses"></app-table>
+						<app-table :bonuses="selectedBonuses"></app-table>
 					</v-flex>
 				</v-layout>
 
@@ -81,7 +91,8 @@ import Accordion from "./PointBuy/AbilityAccordion";
 import Buttons from "./PointBuy/AbilityButtons";
 
 import { maxLength } from "vuelidate/lib/validators";
-import { races } from "../plugins/point-buy";
+import { races, getRaceByName } from "../plugins/point-buy";
+import { pb } from "../api";
 import { pascalizeWord, truncate, capitalize } from "../filters";
 
 import { mapGetters, mapMutations } from "vuex";
@@ -94,6 +105,7 @@ export default {
 			selectedSubRace: "",
 			selectedAbilities: [],
 			activeAbility: "strength",
+			isVariantHuman: false,
 		};
 	},
 
@@ -113,31 +125,45 @@ export default {
 				this.setAvailable(val);
 			}
 		},
+		race() {
+			return getRaceByName(this.selectedRace);
+		},
 		raceOptions() {
 			return races.map(r => pascalizeWord(r.name));
 		},
 		subRaceOptions() {
-			const race = this.selectedRace.toLowerCase();
-			if(!races.find(r => r.name === race).subRaces) return;
+			if(!this.race.subRaces) return;
 
-			const subRaces = races.find(r => r.name === race).subRaces.map(s => s.name.charAt(0).toUpperCase() + s.name.slice(1));
+			const subRaces = this.race.subRaces.map(s => s.name.charAt(0).toUpperCase() + s.name.slice(1));
 			this.selectedSubRace = subRaces[0];
 			return subRaces;
 		},
 		abilityOptions() {
-			return this.abilities.filter(name => name !== "charisma");
+			if(this.race.name === 'human' && this.isVariantHuman) {
+				return this.abilities;
+			}
+			const bonusNames = this.bonuses.map(bonus => bonus.name);
+			return this.abilities.filter(name => !bonusNames.includes(name));
 		},
 		bonuses() {
-			const race = races.find(r => r.name === this.selectedRace.toLowerCase());
-			const bonuses = race.subRaces ? race.subRaces.find(sr => sr.name === this.selectedSubRace.toLowerCase()).bonuses : race.bonuses;
-
-			const returnable = [];
-			if(this.selectedRace === 'Half-elf') {
+			return this.race.subRaces ? this.race.subRaces.find(sr => sr.name === this.selectedSubRace.toLowerCase()).bonuses : this.race.bonuses;
+		},
+		selectedBonuses() {
+			console.log("selectedAbilities", this.selectedAbilities);
+			if(this.race.name === 'human' && this.isVariantHuman) {
 				const selectedBonuses = this.selectedAbilities.map(ab => ({ name: ab.toLowerCase(), value: 1 }));
-				returnable.push(...selectedBonuses);
+				console.log("selectedBonuses", selectedBonuses);
+				return selectedBonuses;
 			}
-			returnable.push(...bonuses);
-			return returnable;
+
+			const allBonuses = this.bonuses.concat(this.selectedAbilities.map(ab => ({ name: ab.toLowerCase(), value: 1 })));
+			return allBonuses;
+		},
+		showAbilitySelections() {
+			console.log("isvarianthuman", this.isVariantHuman);
+			const show = this.race.name === 'half-elf' || this.race.name === 'human' && this.isVariantHuman;
+			console.log("show", show);
+			return show;
 		},
 	},
 
