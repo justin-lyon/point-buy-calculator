@@ -1,22 +1,18 @@
 <template>
-	<v-container fluid grid-list-xs>
-		<v-layout row wrap >
-			<v-flex v-for="ab in abilities" :key="ab"
-				xs12 md6 lg4>
-				<app-card
-					:abilityName="ab"
-					:bonuses="bonuses"
-					:activeAbility="activeAbility"
-					@focused="$emit('focused', $event)"></app-card>
-			</v-flex>
-		</v-layout>
-	</v-container>
+<v-expansion-panel popout>
+	<app-accordion-item v-for="ab in abilities" :key="ab"
+		:abilityName="ab"
+		:bonuses="bonuses"
+		:activeAbility="activeAbility"
+		@focused="$emit('focused', $event)" ></app-accordion-item>
+</v-expansion-panel>
 </template>
 
 <script>
-import Card from "./AbilityCard";
+import AccordionItem from "./AbilityAccordionItem";
+
 export default {
-	name: "PointBuyAbilityGrid",
+	name: "PointBuyAccordion",
 	data() {
 		return {
 			headers: [
@@ -40,10 +36,16 @@ export default {
 	computed: {
 		abilities() {
 			return this.$store.getters.abilities;
-		}
+		},
+		abilityItems() {
+			return this.abilities.map(ab => ({
+				name: ab,
+				value: (ab.name === "strength")
+			}));
+		},
 	},
 	components: {
-		appCard: Card
+		appAccordionItem: AccordionItem
 	}
 }
 </script>

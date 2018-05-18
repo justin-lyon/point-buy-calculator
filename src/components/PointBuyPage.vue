@@ -53,11 +53,19 @@
 					</v-flex>
 				</v-layout>
 
-				<v-layout row v-if="$vuetify.breakpoint.smAndDown">
+				<!-- <v-layout row v-if="$vuetify.breakpoint.smAndDown">
 					<v-flex xs12>
 						<app-grid :bonuses="bonuses"
 							:activeAbility="activeAbility"
 							@focused="handleFocusedAbility"></app-grid>
+					</v-flex>
+				</v-layout> -->
+
+				<v-layout row >
+					<v-flex xs12>
+						<app-accordion :bonuses="bonuses"
+							:activeAbility="activeAbility"
+							@focused="handleFocusedAbility"></app-accordion>
 					</v-flex>
 				</v-layout>
 
@@ -79,6 +87,7 @@
 import Gauge from "./PointBuy/RemainingGauge";
 import Table from "./PointBuy/Datatable";
 import Grid from "./PointBuy/AbilityGrid";
+import Accordion from "./PointBuy/AbilityAccordion";
 import Buttons from "./PointBuy/AbilityButtons";
 
 import { maxLength } from "vuelidate/lib/validators";
@@ -94,7 +103,7 @@ export default {
 			selectedRace: "Human",
 			selectedSubRace: "",
 			selectedAbilities: [],
-			activeAbility: "",
+			activeAbility: "strength",
 		};
 	},
 
@@ -149,7 +158,8 @@ export default {
 			console.log("event", event);
 		},
 		handleFocusedAbility(ab) {
-			this.activeAbility = ab;
+			console.log("ab", ab)
+			this.activeAbility = this.activeAbility === ab ? "" : ab;
 		}
 	},
 
@@ -168,6 +178,7 @@ export default {
 	components: {
 		appGauge: Gauge,
 		appGrid: Grid,
+		appAccordion: Accordion,
 		appTable: Table,
 		appButtons: Buttons,
 	}
