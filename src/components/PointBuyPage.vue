@@ -67,7 +67,7 @@
 				</v-layout>
 
 			</v-container>
-			<app-buttons v-if="activeAbility"
+			<app-buttons v-if="activeAbility && $vuetify.breakpoint.smAndDown"
 				:abilityName="activeAbility"></app-buttons>
 
 		</v-card-text>
