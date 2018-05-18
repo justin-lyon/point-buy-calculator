@@ -28,7 +28,7 @@
 
 <script>
 import { required, minValue, maxValue } from "vuelidate/lib/validators";
-import { getCost } from "../../plugins/point-buy";
+import { getCost, validateNextCost } from "../../plugins/point-buy";
 import { truncate, capitalize } from "../../filters";
 import { mapGetters } from "vuex";
 
@@ -87,11 +87,8 @@ export default {
 		},
 
 		max() {
-			const thisCost = getCost(Number(this.score));
-			const nextCost = getCost(Number(this.score + 1));
-			const costDiff = thisCost - nextCost;
-
-			return this.remainingPoints + costDiff >= 0 ? 15 : this.score;
+			const isValidNext = validateNextCost(this.score, this.remainingPoints);
+			return isValidNext ? 15 : this.score;
 		},
 
 		racialBonus() {
