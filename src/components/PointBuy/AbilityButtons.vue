@@ -29,6 +29,9 @@
 </template>
 
 <script>
+import { validateNextCost } from "../../plugins/point-buy";
+import { mapGetters } from "vuex";
+
 export default {
 	name: "AbilityButtons",
 	data() {
@@ -49,6 +52,7 @@ export default {
 	},
 
 	computed: {
+		...mapGetters(["remainingPoints"]),
 		score: {
 			get() {
 				return this.$store.getters[this.abilityName];
@@ -61,7 +65,7 @@ export default {
 
 	methods: {
 		increment() {
-			if(this.score < 15) {
+			if(this.score < 15 && validateNextCost(this.score, this.remainingPoints)) {
 				this.score = this.score + 1;
 			}
 		},

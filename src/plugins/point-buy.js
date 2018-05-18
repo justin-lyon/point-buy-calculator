@@ -9,9 +9,17 @@ export const costs = [
 	{ score: 15, cost: 9 }
 ];
 
-export const getCost = function(score) {
+export const getCost = score => {
 	const costItem = costs.find(c => c.score === score);
 	return costItem ? costItem.cost : "-";
+};
+
+export const validateNextCost = (currentScore, remaining) => {
+	const currentCost = getCost(Number(currentScore));
+	const nextCost = getCost(Number(currentScore + 1));
+	const costDiff = currentCost - nextCost;
+
+	return remaining + costDiff >= 0;
 };
 
 export const races = [
