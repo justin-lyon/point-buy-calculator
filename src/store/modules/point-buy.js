@@ -30,12 +30,10 @@ const getters = {
 	charisma: state => Number(state.charisma),
 
 	spent: state => {
-		const spent = state.abilities.reduce((acc, a) => {
+		return state.abilities.reduce((acc, a) => {
 			const cost = getCost(Number(state[a]));
 			return acc += Number(cost) ? cost : 0;
 		}, 0);
-		console.log("spent", spent);
-		return spent;
 	},
 	remainingPoints: (state, { spent }) => Number(state.availablePoints - spent)
 };
