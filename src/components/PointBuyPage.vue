@@ -3,16 +3,16 @@
 		<v-card-text>
 			<v-container fluid grid-list-xl>
 				<v-layout row justify-center>
-					<v-flex x12 md6 lg4>
-							<v-text-field
-								label="Total Available"
-								v-model="available"
-								type="number"
-								max="999"
-								min="1"></v-text-field>
+					<v-flex x12 md3 lg4>
+						<v-text-field
+							label="Total Available"
+							v-model.number="available"
+							type="number"
+							max="999"
+							min="1"></v-text-field>
 						</v-flex>
 
-						<v-flex xs12 md6 lg4 v-if="$vuetify.breakpoint.mdAndUp">
+						<v-flex md3 lg4 v-if="$vuetify.breakpoint.mdAndUp">
 							<div class="text-xs-center" >
 								<app-gauge size="100" :width="15" ></app-gauge>
 							</div>
@@ -20,18 +20,22 @@
 				</v-layout>
 
 				<v-layout row justify-center>
-					<v-flex xs12 md6 lg4 >
-							<v-select
-								label="Race"
-								v-model="selectedRace"
-								:items="raceOptions"></v-select>
-						</v-flex>
-						<v-flex xs12 md6 lg4 v-if="subRaceOptions">
-							<v-select
-								label="Subrace"
-								v-model="selectedSubRace"
-								:items="subRaceOptions"></v-select>
-						</v-flex>
+					<v-flex xs12
+						:md3="subRaceOptions"
+						:md6="!subRaceOptions"
+						:lg4="subRaceOptions"
+						:lg8="!subRaceOptions" >
+						<v-select
+							label="Race"
+							v-model="selectedRace"
+							:items="raceOptions"></v-select>
+					</v-flex>
+					<v-flex xs12 md3 lg4 v-if="subRaceOptions">
+						<v-select
+							label="Subrace"
+							v-model="selectedSubRace"
+							:items="subRaceOptions"></v-select>
+					</v-flex>
 				</v-layout>
 
 				<v-layout row wrap justify-center v-if="selectedRace === 'Half-elf'">
@@ -44,24 +48,11 @@
 							:label="ab | truncate(3) | capitalize"
 							:value="ab"
 							validate-on-blur
-							:disabled="selectedAbilities.length >= 2 && selectedAbilities.indexOf(ab) === -1"
-							@blur="$v.selectedAbilities.$touch()"
-							:error="$v.selectedAbilities.$error"
-							:rules="[
-							() => $v.selectedAbilities.maxLength || 'Pick Two.']"
-							></v-checkbox>
+							:disabled="selectedAbilities.length >= 2 && selectedAbilities.indexOf(ab) === -1" ></v-checkbox>
 					</v-flex>
 				</v-layout>
 
-				<!-- <v-layout row v-if="$vuetify.breakpoint.smAndDown">
-					<v-flex xs12>
-						<app-grid :bonuses="bonuses"
-							:activeAbility="activeAbility"
-							@focused="handleFocusedAbility"></app-grid>
-					</v-flex>
-				</v-layout> -->
-
-				<v-layout row >
+				<v-layout row v-if="$vuetify.breakpoint.smAndDown">
 					<v-flex xs12>
 						<app-accordion :bonuses="bonuses"
 							:activeAbility="activeAbility"
@@ -86,7 +77,6 @@
 <script>
 import Gauge from "./PointBuy/RemainingGauge";
 import Table from "./PointBuy/Datatable";
-import Grid from "./PointBuy/AbilityGrid";
 import Accordion from "./PointBuy/AbilityAccordion";
 import Buttons from "./PointBuy/AbilityButtons";
 
@@ -112,6 +102,7 @@ export default {
 			"availablePoints",
 			"abilities",
 			"abilityNames",
+			"spent",
 			"remainingPoints"
 		]),
 		available: {
@@ -154,19 +145,9 @@ export default {
 		...mapMutations({
 			setAvailable: "availablePoints"
 		}),
-		handleEvent(event) {
-			console.log("event", event);
-		},
 		handleFocusedAbility(ab) {
-			console.log("ab", ab)
 			this.activeAbility = this.activeAbility === ab ? "" : ab;
-		}
-	},
-
-	validations: {
-		selectedAbilities: {
-			maxLength: maxLength(2)
-		}
+		},
 	},
 
 	filters: {
@@ -177,7 +158,6 @@ export default {
 
 	components: {
 		appGauge: Gauge,
-		appGrid: Grid,
 		appAccordion: Accordion,
 		appTable: Table,
 		appButtons: Buttons,

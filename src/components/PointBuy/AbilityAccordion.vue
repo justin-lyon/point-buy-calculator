@@ -1,5 +1,5 @@
 <template>
-<v-expansion-panel popout>
+<v-expansion-panel popout >
 	<app-accordion-item v-for="ab in abilities" :key="ab"
 		:abilityName="ab"
 		:bonuses="bonuses"
@@ -36,13 +36,7 @@ export default {
 	computed: {
 		abilities() {
 			return this.$store.getters.abilities;
-		},
-		abilityItems() {
-			return this.abilities.map(ab => ({
-				name: ab,
-				value: (ab.name === "strength")
-			}));
-		},
+		}
 	},
 	components: {
 		appAccordionItem: AccordionItem

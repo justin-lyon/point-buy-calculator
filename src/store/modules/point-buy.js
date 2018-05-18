@@ -29,13 +29,15 @@ const getters = {
 	wisdom: state => Number(state.wisdom),
 	charisma: state => Number(state.charisma),
 
-	remainingPoints(state) {
+	spent: state => {
 		const spent = state.abilities.reduce((acc, a) => {
 			const cost = getCost(Number(state[a]));
 			return acc += Number(cost) ? cost : 0;
 		}, 0);
-		return Number(state.availablePoints - spent);
-	}
+		console.log("spent", spent);
+		return spent;
+	},
+	remainingPoints: (state, { spent }) => Number(state.availablePoints - spent)
 };
 
 const mutations = {
