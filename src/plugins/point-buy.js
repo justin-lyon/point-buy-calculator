@@ -22,161 +22,35 @@ export const validateNextCost = (currentScore, remaining) => {
 	return remaining + costDiff >= 0;
 };
 
-export const getRaceByName = name => {
-	return races.find(r => r.name === name.toLowerCase());
-};
-
-export const races = [
-	{
-		name: "dwarf",
-		subRaces: [
-			{
-				name: "hill",
-				bonuses: [
-					{ name: "constitution", value: 2 },
-					{ name: "wisdom", value: 1 }
-				]
-			},
-			{
-				name: "mountain",
-				bonuses: [
-					{ name: "strength", value: 2 },
-					{ name: "constitution", value: 2 },
-				]
-			}
-		]
-	},
-	{
-		name: "dragonborn",
-		bonuses: [
-			{ name: "strength", value: 2 },
-			{ name: "charisma", value: 1 }
-		]
-	},
-	{
-		name: "elf",
-		subRaces: [
-			{
-				name: "drow",
-				bonuses: [
-					{ name: "dexterity", value: 2 },
-					{ name: "charisma", value: 1 },
-				]
-			},
-			{
-				name: "high",
-				bonuses: [
-					{ name: "dexterity", value: 2 },
-					{ name: "intelligence", value: 1 },
-				]
-			},
-			{
-				name: "wood",
-				bonuses: [
-					{ name: "dexterity", value: 2 },
-					{ name: "wisdom", value: 1 },
-				]
-			}
-		]
-	},
-	{
-		name: "gnome",
-		subRaces: [
-			{
-				name: "forest",
-				bonuses: [
-					{ name: "dexterity", value: 1 },
-					{ name: "intelligence", value: 2 },
-				]
-			},
-			{
-				name: "rock",
-				bonuses: [
-					{ name: "constitution", value: 1 },
-					{ name: "intelligence", value: 2 },
-				]
-			}
-		]
-	},
-	{
-		name: "halfling",
-		subRaces: [
-			{
-				name: "lightfoot",
-				bonuses: [
-					{ name: "dexterity", value: 2 },
-					{ name: "charisma", value: 1 },
-				]
-			},
-			{
-				name: "stout",
-				bonuses: [
-					{ name: "dexterity", value: 2 },
-					{ name: "constitution", value: 1 },
-				]
-			}
-		]
-	},
-	{
-		name: "half-elf",
-		isSelectable: true,
-		bonuses: [
-			{ name: "charisma", value: 2 }
-		]
-	},
-	{
-		name: "half-orc",
-		bonuses: [
-			{ name: "strength", value: 2 },
-			{ name: "constitution", value: 1 }
-		]
-	},
-	{
-		name: "human",
-		isSelectable: false,
-		isVariant: false,
-		bonuses: [
-			{ name: "strength", value: 1 },
-			{ name: "dexterity", value: 1 },
-			{ name: "constitution", value: 1 },
-			{ name: "intelligence", value: 1 },
-			{ name: "wisdom", value: 1 },
-			{ name: "charisma", value: 1 }
-		]
-	},
-	{
-		name: "tiefling",
-		bonuses: [
-			{ name: "intelligence", value: 1 },
-			{ name: "charisma", value: 2 },
-		]
-	}
+export const sources = [
+	{ id: "b0", name: "Player's Handbook", abbr: "phb" },
+	{ id: "b1", name: "Volo's Guide to Monsters", abbr: "vgm" },
 ];
 
 export const raceModel = [
-	{ id: 'r0', name: 'dwarf' },
-	{ id: 'r1', name: 'dragonborn' },
-	{ id: 'r2', name: 'elf' },
-	{ id: 'r3', name: 'gnome' },
-	{ id: 'r4', name: 'halfling' },
-	{ id: 'r5', name: 'half-elf' },
-	{ id: 'r6', name: 'half-orc' },
-	{ id: 'r7', name: 'human' },
-	{ id: 'r8', name: 'tiefling' },
+	{ id: 'r0', sourceId: "b0", name: 'dwarf' },
+	{ id: 'r1', sourceId: "b0", name: 'dragonborn' },
+	{ id: 'r2', sourceId: "b0", name: 'elf' },
+	{ id: 'r3', sourceId: "b0", name: 'gnome' },
+	{ id: 'r4', sourceId: "b0", name: 'halfling' },
+	{ id: 'r5', sourceId: "b0", name: 'half-elf' },
+	{ id: 'r6', sourceId: "b0", name: 'half-orc' },
+	{ id: 'r7', sourceId: "b0", name: 'human' },
+	{ id: 'r8', sourceId: "b0", name: 'tiefling' },
 ];
 
 export const subRaceModel = [
-	{ id: 'sr0', raceId: 'r0', name: 'hill' },
-	{ id: 'sr1', raceId: 'r0', name: 'mountain' },
-	{ id: 'sr2', raceId: 'r2', name: 'drow' },
-	{ id: 'sr3', raceId: 'r2', name: 'high' },
-	{ id: 'sr4', raceId: 'r2', name: 'wood' },
-	{ id: 'sr5', raceId: 'r3', name: 'forest' },
-	{ id: 'sr6', raceId: 'r3', name: 'rock' },
-	{ id: 'sr7', raceId: 'r4', name: 'lightfoot' },
-	{ id: 'sr8', raceId: 'r4', name: 'stout' },
-	{ id: 'sr9', raceId: 'r7', name: 'normal' },
-	{ id: 'sr10', raceId: 'r7', name: 'variant' },
+	{ id: 'sr0', sourceId: "b0", raceId: 'r0', name: 'hill' },
+	{ id: 'sr1', sourceId: "b0", raceId: 'r0', name: 'mountain' },
+	{ id: 'sr2', sourceId: "b0", raceId: 'r2', name: 'drow' },
+	{ id: 'sr3', sourceId: "b0", raceId: 'r2', name: 'high' },
+	{ id: 'sr4', sourceId: "b0", raceId: 'r2', name: 'wood' },
+	{ id: 'sr5', sourceId: "b0", raceId: 'r3', name: 'forest' },
+	{ id: 'sr6', sourceId: "b0", raceId: 'r3', name: 'rock' },
+	{ id: 'sr7', sourceId: "b0", raceId: 'r4', name: 'lightfoot' },
+	{ id: 'sr8', sourceId: "b0", raceId: 'r4', name: 'stout' },
+	{ id: 'sr9', sourceId: "b0", raceId: 'r7', name: 'normal' },
+	{ id: 'sr10', sourceId: "b0", raceId: 'r7', name: 'variant' },
 ];
 
 export const bonusModel = [

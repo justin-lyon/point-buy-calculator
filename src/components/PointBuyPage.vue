@@ -19,8 +19,12 @@
 						</v-flex>
 				</v-layout>
 
-				<v-layout row justify-center>
-					<v-flex xs12 md3 lg4>
+				<v-layout row wrap justify-center>
+					<v-flex xs12
+						:md3="subRaceOptions"
+						:md6="!subRaceOptions"
+						:lg4="subRaceOptions"
+						:lg8="!subRaceOptions">
 						<v-select
 							label="Race"
 							v-model="race"
@@ -35,25 +39,22 @@
 					</v-flex>
 				</v-layout>
 
-				<!-- v-if="showAbilitySelections" v-for="ab in abilityOptions" :key="ab" -->
 				<v-layout row wrap justify-center >
-					<v-flex
-						xs4 md2
-						>
+					<v-flex v-if="selectedRace === 'r5' || selectedSubRace === 'sr10'"
+						v-for="ab in abilityOptions" :key="ab"
+						xs4 md2 >
 
-						{{ bonuses }}
-
-						<!-- <v-checkbox v-model="selectedAbilities"
+						<v-checkbox v-model="selectedAbilities"
 							:label="ab | truncate(3) | capitalize"
 							:value="ab"
 							validate-on-blur
-							:disabled="selectedAbilities.length >= 2 && selectedAbilities.indexOf(ab) === -1" ></v-checkbox> -->
+							:disabled="selectedAbilities.length >= 2 && selectedAbilities.indexOf(ab) === -1" ></v-checkbox>
 					</v-flex>
 				</v-layout>
 
 				<v-layout row v-if="$vuetify.breakpoint.smAndDown">
 					<v-flex xs12>
-						<app-accordion :bonuses="bonuses"
+						<app-accordion :bonuses="racialBonuses"
 							:activeAbility="activeAbility"
 							@focused="handleFocusedAbility"></app-accordion>
 					</v-flex>
@@ -61,7 +62,7 @@
 
 				<v-layout row v-if="$vuetify.breakpoint.mdAndUp">
 					<v-flex xs12>
-						<app-table :bonuses="bonuses"></app-table>
+						<app-table :bonuses="racialBonuses"></app-table>
 					</v-flex>
 				</v-layout>
 
@@ -112,12 +113,24 @@ export default {
 		},
 		race: {
 			get() { return this.selectedRace; },
-			set(val) { this.setRace(val); }
+			set(val) { this.setRace(val); this.selectedAbilities = []; }
 		},
 		subRace: {
 			get() { return this.selectedSubRace; },
 			set(val) { this.setSubRace(val); }
 		},
+		abilityOptions() {
+			if(this.selectedRace === "r5") {
+				return this.abilities.filter(a => a !== "charisma");
+			}
+			return this.abilities;
+		},
+		racialBonuses() {
+			if(this.selectedRace === "r5" || this.selectedSubRace === "sr10") {
+				return this.selectedAbilities.map(ab => ({ name: ab, value: 1 }));
+			}
+			return this.bonuses;
+		}
 	},
 
 	methods: {
