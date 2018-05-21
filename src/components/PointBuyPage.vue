@@ -53,9 +53,9 @@
 
 				<v-layout row v-if="$vuetify.breakpoint.smAndDown">
 					<v-flex xs12>
-						<!-- <app-accordion :bonuses="selectedBonuses"
+						<app-accordion :bonuses="bonuses"
 							:activeAbility="activeAbility"
-							@focused="handleFocusedAbility"></app-accordion> -->
+							@focused="handleFocusedAbility"></app-accordion>
 					</v-flex>
 				</v-layout>
 
@@ -66,8 +66,8 @@
 				</v-layout>
 
 			</v-container>
-			<!-- <app-buttons v-if="activeAbility && $vuetify.breakpoint.smAndDown"
-				:abilityName="activeAbility"></app-buttons> -->
+			<app-buttons v-if="activeAbility && $vuetify.breakpoint.smAndDown"
+				:abilityName="activeAbility"></app-buttons>
 
 		</v-card-text>
 	</v-card>
