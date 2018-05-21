@@ -20,31 +20,33 @@
 				</v-layout>
 
 				<v-layout row justify-center>
-					<v-flex xs12
+					<!-- <v-flex xs12
 						:md3="subRaceOptions || race.name === 'human'"
 						:md6="!subRaceOptions && race.name !== 'human'"
 						:lg4="subRaceOptions || race.name === 'human'"
-						:lg8="!subRaceOptions && race.name !== 'human'" >
+						:lg8="!subRaceOptions && race.name !== 'human'" > -->
+					<v-flex>
 
-
-						<v-select
+						<!-- <v-select
 							label="Race"
 							v-model="selectedRace"
-							:items="raceOptions"></v-select>
+							:items="raceOptions"></v-select> -->
 
 					</v-flex>
 					<v-flex xs12 md3 lg4 v-if="subRaceOptions">
-						<v-select
+						<!-- <v-select
 							label="Subrace"
 							v-model="selectedSubRace"
-							:items="subRaceOptions"></v-select>
+							:items="subRaceOptions" ></v-select> -->
+							<!-- :item-text="name | pascalizeWord"
+							:item-value="id" ></v-select> -->
 					</v-flex>
 					<v-flex xs12 md3 lg4 v-if="race.name === 'human'">
-						<v-checkbox
+						<!-- <v-checkbox
 							class="shrink pt-3"
 							label="Variant"
 							v-model="isVariantHuman"
-							hide-details></v-checkbox>
+							hide-details></v-checkbox> -->
 					</v-flex>
 				</v-layout>
 
@@ -54,31 +56,31 @@
 						v-for="ab in abilityOptions"
 						:key="ab">
 
-						<v-checkbox v-model="selectedAbilities"
+						<!-- <v-checkbox v-model="selectedAbilities"
 							:label="ab | truncate(3) | capitalize"
 							:value="ab"
 							validate-on-blur
-							:disabled="selectedAbilities.length >= 2 && selectedAbilities.indexOf(ab) === -1" ></v-checkbox>
+							:disabled="selectedAbilities.length >= 2 && selectedAbilities.indexOf(ab) === -1" ></v-checkbox> -->
 					</v-flex>
 				</v-layout>
 
 				<v-layout row v-if="$vuetify.breakpoint.smAndDown">
 					<v-flex xs12>
-						<app-accordion :bonuses="selectedBonuses"
+						<!-- <app-accordion :bonuses="selectedBonuses"
 							:activeAbility="activeAbility"
-							@focused="handleFocusedAbility"></app-accordion>
+							@focused="handleFocusedAbility"></app-accordion> -->
 					</v-flex>
 				</v-layout>
 
 				<v-layout row v-if="$vuetify.breakpoint.mdAndUp">
 					<v-flex xs12>
-						<app-table :bonuses="selectedBonuses"></app-table>
+						<!-- <app-table :bonuses="selectedBonuses"></app-table> -->
 					</v-flex>
 				</v-layout>
 
 			</v-container>
-			<app-buttons v-if="activeAbility && $vuetify.breakpoint.smAndDown"
-				:abilityName="activeAbility"></app-buttons>
+			<!-- <app-buttons v-if="activeAbility && $vuetify.breakpoint.smAndDown"
+				:abilityName="activeAbility"></app-buttons> -->
 
 		</v-card-text>
 	</v-card>
@@ -110,7 +112,7 @@ export default {
 	},
 
 	computed: {
-		...mapGetters([
+		...mapGetters("PointBuy", [
 			"availablePoints",
 			"abilities",
 			"abilityNames",
@@ -126,17 +128,25 @@ export default {
 			}
 		},
 		race() {
+			//return pb.getRaceByName(this.selectedRace);
 			return getRaceByName(this.selectedRace);
 		},
 		raceOptions() {
+			//return pb.getRaces().map(r => pascalizeWord(r.name));
 			return races.map(r => pascalizeWord(r.name));
 		},
 		subRaceOptions() {
+			//return pb.getSubRacesByRace(this.race.id).map(sr => pascalizeWord(sr.name));
 			if(!this.race.subRaces) return;
 
-			const subRaces = this.race.subRaces.map(s => s.name.charAt(0).toUpperCase() + s.name.slice(1));
+			const subRaces = this.race.subRaces.map(sr => pascalizeWord(sr.name));
 			this.selectedSubRace = subRaces[0];
 			return subRaces;
+		},
+		bonuses() {
+			//const bonuses = pb.getBonusesByRace(this.race.id).concat(pb.getBonusesBySubRace())
+
+			return this.race.subRaces ? this.race.subRaces.find(sr => sr.name === this.selectedSubRace.toLowerCase()).bonuses : this.race.bonuses;
 		},
 		abilityOptions() {
 			if(this.race.name === 'human' && this.isVariantHuman) {
@@ -144,9 +154,6 @@ export default {
 			}
 			const bonusNames = this.bonuses.map(bonus => bonus.name);
 			return this.abilities.filter(name => !bonusNames.includes(name));
-		},
-		bonuses() {
-			return this.race.subRaces ? this.race.subRaces.find(sr => sr.name === this.selectedSubRace.toLowerCase()).bonuses : this.race.bonuses;
 		},
 		selectedBonuses() {
 			console.log("selectedAbilities", this.selectedAbilities);
@@ -168,7 +175,7 @@ export default {
 	},
 
 	methods: {
-		...mapMutations({
+		...mapMutations("PointBuy", {
 			setAvailable: "availablePoints"
 		}),
 		handleFocusedAbility(ab) {

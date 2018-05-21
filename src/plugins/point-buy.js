@@ -175,8 +175,8 @@ export const subRaceModel = [
 	{ id: 'sr6', raceId: 'r3', name: 'rock' },
 	{ id: 'sr7', raceId: 'r4', name: 'lightfoot' },
 	{ id: 'sr8', raceId: 'r4', name: 'stout' },
-	{ id: 'sr9', raceId: 'r7', name: 'Normal' },
-	{ id: 'sr10', raceId: 'r7', name: 'Variant' },
+	{ id: 'sr9', raceId: 'r7', name: 'normal' },
+	{ id: 'sr10', raceId: 'r7', name: 'variant' },
 ];
 
 export const bonusModel = [
@@ -206,4 +206,4 @@ export const bonusModel = [
 	{ id: 22, parentId: 'sr6', name: 'constitution', value: 1 },
 	{ id: 23, parentId: 'sr7', name: 'charisma', value: 1 },
 	{ id: 24, parentId: 'sr8', name: 'constitution', value: 1 },
-]
+];

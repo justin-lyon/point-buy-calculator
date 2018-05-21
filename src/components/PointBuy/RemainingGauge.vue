@@ -28,7 +28,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
+		...mapGetters("PointBuy", [
 			"availablePoints",
 			"remainingPoints"
 		]),

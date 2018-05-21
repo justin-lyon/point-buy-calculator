@@ -35,7 +35,7 @@ const getters = {
 			return acc += Number(cost) ? cost : 0;
 		}, 0);
 	},
-	remainingPoints: (state, { spent }) => Number(state.availablePoints - spent)
+	remainingPoints: (state, { spent }) => Number(state.availablePoints - spent),
 };
 
 const mutations = {
@@ -52,6 +52,7 @@ const mutations = {
 const actions = {};
 
 export default {
+	namespaced: true,
 	state,
 	getters,
 	mutations,

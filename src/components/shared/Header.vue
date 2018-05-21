@@ -28,10 +28,6 @@ export default {
 		image() {
 			return img;
 		},
-
-		available() {
-			return this.$store.getters.availablePoints;
-		}
 	},
 
 	components: {
