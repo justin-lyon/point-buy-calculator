@@ -1,5 +1,5 @@
 import { getCost, races } from "../../plugins/point-buy";
-import { pascalizeWord } from "../../filters";
+import { pascalize } from "../../filters";
 import api from "../../api";
 
 const state = {
@@ -13,6 +13,7 @@ const state = {
 		"charisma"
 	],
 
+	selectedResources: ["b0"], //, "b1"
 	selectedRace: "r7", // human
 	selectedSubRace: "sr9", // normal
 
@@ -23,13 +24,14 @@ const state = {
 	wisdom: 8,
 	charisma: 8,
 
-	races: api.pb.getRaces()
+	sources: api.pb.getSources(),
 };
 
 const getters = {
 	availablePoints: state => state.availablePoints,
 	abilities: state => state.abilities,
 
+	selectedResources: state => state.selectedResources,
 	selectedRace: state => state.selectedRace,
 	selectedSubRace: state => state.selectedSubRace,
 
@@ -48,13 +50,18 @@ const getters = {
 	},
 	remainingPoints: (state, { spent }) => Number(state.availablePoints - spent),
 
-	races: state => state.races,
-	subRaces: state => api.pb.getSubRacesByRace(state.selectedRace),
+	sources: state => state.sources,
+	races: state => api.pb.getRacesBySource(state.selectedResources),
+	subRaces: state => api.pb.getSubRacesByRace(state.selectedRace, state.selectedResources),
 	bonuses: state => api.pb.getBonusesByParent([state.selectedRace, state.selectedSubRace]),
 
-	raceOptions: state => state.races.map(r => ({ text: pascalizeWord(r.name), value: r.id })).sort(),
+	raceOptions: (state, getters) => getters.races.map(r => ({ text: pascalize(r.name), value: r.id })).sort((a, b) => {
+		const aText = a.text.toLowerCase();
+		const bText = b.text.toLowerCase();
+		return aText < bText ? -1 : aText > bText ? 1 : 0;
+	}),
 	subRaceOptions: (state, getters) => {
-		const options = getters.subRaces.map(sr => ({ text: pascalizeWord(sr.name), value: sr.id }));
+		const options = getters.subRaces.map(sr => ({ text: pascalize(sr.name), value: sr.id }));
 		if(options.length) {
 			state.selectedSubRace = options[0].value;
 			return options;
@@ -76,6 +83,7 @@ const mutations = {
 
 	selectedRace: (state, value) => state.selectedRace = value,
 	selectedSubRace: (state, value) => state.selectedSubRace = value,
+	selectedResources: (state, value) => state.selectedResources = value,
 };
 
 const actions = {};

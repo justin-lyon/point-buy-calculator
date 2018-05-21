@@ -19,9 +19,9 @@
 					></v-text-field>
 			</div>
 		</td>
-		<td class="text-xs-center" :class="greenText" >{{ racialBonus }}</td>
+		<td class="text-xs-center" :class="'subheading' + textColor(racialBonus)" >{{ racialBonus }}</td>
 		<td class="text-xs-center" >{{ totalScore }}</td>
-		<td class="text-xs-center" :class="redText" >{{ modifier }}</td>
+		<td class="text-xs-center" :class="'subheading' + textColor(modifier)" >{{ modifier }}</td>
 		<td class="text-xs-center" >{{ cost }}</td>
 	</tr>
 </template>
@@ -80,12 +80,6 @@ export default {
 			const cost = getCost(Number(this.score));
 			return cost;
 		},
-		redText() {
-			return this.modifier < 0 ? "subheading red--text" : "";
-		},
-		greenText() {
-			return this.racialBonus > 0 ? "subheading green--text" : "";
-		},
 
 		max() {
 			const isValidNext = validateNextCost(this.score, this.remainingPoints);
@@ -103,6 +97,13 @@ export default {
 		rowName() {
 			return "dtRow-" + this.abilityName;
 		}
+	},
+
+	methods: {
+		textColor(val) {
+			return val === 0 ? "" :
+				val < 0 ? " red--text" : " green--text";
+		},
 	},
 
 	validations: {
