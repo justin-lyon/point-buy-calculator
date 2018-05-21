@@ -20,16 +20,11 @@
 				</v-layout>
 
 				<v-layout row justify-center>
-					<!-- <v-flex xs12
-						:md3="subRaceOptions || race.name === 'human'"
-						:md6="!subRaceOptions && race.name !== 'human'"
-						:lg4="subRaceOptions || race.name === 'human'"
-						:lg8="!subRaceOptions && race.name !== 'human'" > -->
 					<v-flex xs12 md3 lg4>
 						<v-select
 							label="Race"
 							v-model="race"
-							:items="raceOptions"></v-select>
+							:items="raceOptions" ></v-select>
 					</v-flex>
 
 					<v-flex xs12 md3 lg4 v-if="subRaceOptions" >
@@ -38,13 +33,6 @@
 							v-model="subRace"
 							:items="subRaceOptions" ></v-select>
 					</v-flex>
-					<!-- <v-flex xs12 md3 lg4 > v-if="race.name === 'human'" -->
-						<!-- <v-checkbox
-							class="shrink pt-3"
-							label="Variant"
-							v-model="isVariantHuman"
-							hide-details></v-checkbox> -->
-					<!-- </v-flex> -->
 				</v-layout>
 
 				<!-- v-if="showAbilitySelections" v-for="ab in abilityOptions" :key="ab" -->
@@ -52,6 +40,8 @@
 					<v-flex
 						xs4 md2
 						>
+
+						{{ bonuses }}
 
 						<!-- <v-checkbox v-model="selectedAbilities"
 							:label="ab | truncate(3) | capitalize"
@@ -71,7 +61,7 @@
 
 				<v-layout row v-if="$vuetify.breakpoint.mdAndUp">
 					<v-flex xs12>
-						<!-- <app-table :bonuses="selectedBonuses"></app-table> -->
+						<app-table :bonuses="bonuses"></app-table>
 					</v-flex>
 				</v-layout>
 
@@ -106,55 +96,28 @@ export default {
 	computed: {
 		...mapGetters("PointBuy", [
 			"availablePoints",
-			"abilities",
-			"abilityNames",
-			"spent",
 			"remainingPoints",
+			"abilities",
 			"selectedRace",
 			"selectedSubRace",
 			"races",
-			"subRaces"
+			"subRaces",
+			"raceOptions",
+			"subRaceOptions",
+			"bonuses"
 		]),
 		available: {
-			get() {
-				return this.availablePoints;
-			},
-			set(val) {
-				this.setAvailable(val);
-			},
+			get() { return this.availablePoints; },
+			set(val) { this.setAvailable(val); }
 		},
 		race: {
-			get() {
-				return this.selectedRace;
-			},
-			set(val) {
-				this.setRace(val);
-			}
+			get() { return this.selectedRace; },
+			set(val) { this.setRace(val); }
 		},
 		subRace: {
-			get() {
-				return this.selectedSubRace;
-			},
-			set(val) {
-				this.setSubRace(val);
-			}
+			get() { return this.selectedSubRace; },
+			set(val) { this.setSubRace(val); }
 		},
-
-		raceOptions() {
-			return this.races.map(r => ({ text: pascalizeWord(r.name), value: r.id })).sort();
-		},
-
-		subRaceOptions() {
-			const subRaces = this.subRaces;
-
-			if(subRaces.length > 0) {
-				const subRaceOptions = subRaces.map(sr => ({ text: pascalizeWord(sr.name), value: sr.id }));
-				this.subRace = subRaceOptions[0].value;
-				return subRaceOptions;
-			}
-
-			return;
-		}
 	},
 
 	methods: {

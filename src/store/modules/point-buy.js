@@ -1,4 +1,5 @@
 import { getCost, races } from "../../plugins/point-buy";
+import { pascalizeWord } from "../../filters";
 import api from "../../api";
 
 const state = {
@@ -13,7 +14,7 @@ const state = {
 	],
 
 	selectedRace: "r7", // human
-	selectedSubRace: "sr9",
+	selectedSubRace: "sr9", // normal
 
 	strength: 8,
 	dexterity: 8,
@@ -22,7 +23,7 @@ const state = {
 	wisdom: 8,
 	charisma: 8,
 
-	races: []
+	races: api.pb.getRaces()
 };
 
 const getters = {
@@ -47,9 +48,20 @@ const getters = {
 	},
 	remainingPoints: (state, { spent }) => Number(state.availablePoints - spent),
 
-	races: state => api.pb.getRaces(),
+	races: state => state.races,
 	subRaces: state => api.pb.getSubRacesByRace(state.selectedRace),
+	bonuses: state => api.pb.getBonusesByParent([state.selectedRace, state.selectedSubRace]),
 
+	raceOptions: state => state.races.map(r => ({ text: pascalizeWord(r.name), value: r.id })).sort(),
+	subRaceOptions: (state, getters) => {
+		const options = getters.subRaces.map(sr => ({ text: pascalizeWord(sr.name), value: sr.id }));
+		if(options.length) {
+			state.selectedSubRace = options[0].value;
+			return options;
+		}
+		state.selectedSubRace = "";
+		return;
+	},
 };
 
 const mutations = {

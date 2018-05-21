@@ -57,16 +57,17 @@ export default {
 	},
 
 	computed: {
-		...mapGetters({
+		abilityNamespace() { return "PointBuy/" + this.abilityName; },
+		...mapGetters("PointBuy", {
 			availablePoints: "availablePoints",
 			remainingPoints: "remainingPoints"
 		}),
 		score: {
 			get() {
-				return this.$store.getters[this.abilityName];
+				return this.$store.getters[this.abilityNamespace];
 			},
 			set(val) {
-				this.$store.commit(this.abilityName, Number(val));
+				this.$store.commit(this.abilityNamespace, Number(val));
 			}
 		},
 		totalScore() {
