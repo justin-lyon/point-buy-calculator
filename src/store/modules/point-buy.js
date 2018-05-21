@@ -1,4 +1,5 @@
 import { getCost, races } from "../../plugins/point-buy";
+import api from "../../api";
 
 const state = {
 	availablePoints: 27,
@@ -10,17 +11,26 @@ const state = {
 		"wisdom",
 		"charisma"
 	],
+
+	selectedRace: "r7", // human
+	selectedSubRace: "sr9",
+
 	strength: 8,
 	dexterity: 8,
 	constitution: 8,
 	intelligence: 8,
 	wisdom: 8,
-	charisma: 8
+	charisma: 8,
+
+	races: []
 };
 
 const getters = {
 	availablePoints: state => state.availablePoints,
 	abilities: state => state.abilities,
+
+	selectedRace: state => state.selectedRace,
+	selectedSubRace: state => state.selectedSubRace,
 
 	strength: state => Number(state.strength),
 	dexterity: state => Number(state.dexterity),
@@ -36,6 +46,10 @@ const getters = {
 		}, 0);
 	},
 	remainingPoints: (state, { spent }) => Number(state.availablePoints - spent),
+
+	races: state => api.pb.getRaces(),
+	subRaces: state => api.pb.getSubRacesByRace(state.selectedRace),
+
 };
 
 const mutations = {
@@ -47,6 +61,9 @@ const mutations = {
 	intelligence: (state, value) => state.intelligence = Number(value),
 	wisdom: (state, value) => state.wisdom = Number(value),
 	charisma: (state, value) => state.charisma = Number(value),
+
+	selectedRace: (state, value) => state.selectedRace = value,
+	selectedSubRace: (state, value) => state.selectedSubRace = value,
 };
 
 const actions = {};
