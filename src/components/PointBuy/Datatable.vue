@@ -38,7 +38,7 @@ export default {
 	},
 	computed: {
 		abilities() {
-			return this.$store.getters.abilities;
+			return this.$store.getters["PointBuy/abilities"];
 		}
 	},
 	components: {

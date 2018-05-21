@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState, mapGetters } from "vuex";
 export default {
 	name: "RemainingGauge",
 	props: {
@@ -28,9 +28,8 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			"availablePoints",
-			"remainingPoints"
+		...mapGetters("PointBuy", [
+			"remainingPoints",
 		]),
 		remainingPercent() {
 			return this.remainingPoints / this.availablePoints * 100;

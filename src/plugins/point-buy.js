@@ -22,126 +22,62 @@ export const validateNextCost = (currentScore, remaining) => {
 	return remaining + costDiff >= 0;
 };
 
-export const races = [
-	{
-		name: "dwarf",
-		subRaces: [
-			{
-				name: "hill",
-				bonuses: [
-					{ name: "constitution", value: 2 },
-					{ name: "wisdom", value: 1 }
-				]
-			},
-			{
-				name: "mountain",
-				bonuses: [
-					{ name: "strength", value: 2 },
-					{ name: "constitution", value: 2 },
-				]
-			}
-		]
-	},
-	{
-		name: "dragonborn",
-		bonuses: [
-			{ name: "strength", value: 2 },
-			{ name: "charisma", value: 1 }
-		]
-	},
-	{
-		name: "elf",
-		subRaces: [
-			{
-				name: "drow",
-				bonuses: [
-					{ name: "dexterity", value: 2 },
-					{ name: "charisma", value: 1 },
-				]
-			},
-			{
-				name: "high",
-				bonuses: [
-					{ name: "dexterity", value: 2 },
-					{ name: "intelligence", value: 1 },
-				]
-			},
-			{
-				name: "wood",
-				bonuses: [
-					{ name: "dexterity", value: 2 },
-					{ name: "wisdom", value: 1 },
-				]
-			}
-		]
-	},
-	{
-		name: "gnome",
-		subRaces: [
-			{
-				name: "forest",
-				bonuses: [
-					{ name: "dexterity", value: 1 },
-					{ name: "intelligence", value: 2 },
-				]
-			},
-			{
-				name: "rock",
-				bonuses: [
-					{ name: "constitution", value: 1 },
-					{ name: "intelligence", value: 2 },
-				]
-			}
-		]
-	},
-	{
-		name: "halfling",
-		subRaces: [
-			{
-				name: "lightfoot",
-				bonuses: [
-					{ name: "dexterity", value: 2 },
-					{ name: "charisma", value: 1 },
-				]
-			},
-			{
-				name: "stout",
-				bonuses: [
-					{ name: "dexterity", value: 2 },
-					{ name: "constitution", value: 1 },
-				]
-			}
-		]
-	},
-	{
-		name: "half-elf",
-		bonuses: [
-			{ name: "charisma", value: 2 }
-		]
-	},
-	{
-		name: "half-orc",
-		bonuses: [
-			{ name: "strength", value: 2 },
-			{ name: "constitution", value: 1 }
-		]
-	},
-	{
-		name: "human",
-		bonuses: [
-			{ name: "strength", value: 1 },
-			{ name: "dexterity", value: 1 },
-			{ name: "constitution", value: 1 },
-			{ name: "intelligence", value: 1 },
-			{ name: "wisdom", value: 1 },
-			{ name: "charisma", value: 1 }
-		]
-	},
-	{
-		name: "tiefling",
-		bonuses: [
-			{ name: "intelligence", value: 1 },
-			{ name: "charisma", value: 2 },
-		]
-	}
+export const sources = [
+	{ id: "b0", name: "Player's Handbook", abbr: "phb" },
+	{ id: "b1", name: "Volo's Guide to Monsters", abbr: "vgm" },
+];
+
+export const raceModel = [
+	{ id: 'r0', sourceId: "b0", name: 'dwarf' },
+	{ id: 'r1', sourceId: "b0", name: 'dragonborn' },
+	{ id: 'r2', sourceId: "b0", name: 'elf' },
+	{ id: 'r3', sourceId: "b0", name: 'gnome' },
+	{ id: 'r4', sourceId: "b0", name: 'halfling' },
+	{ id: 'r5', sourceId: "b0", name: 'half-elf' },
+	{ id: 'r6', sourceId: "b0", name: 'half-orc' },
+	{ id: 'r7', sourceId: "b0", name: 'human' },
+	{ id: 'r8', sourceId: "b0", name: 'tiefling' },
+];
+
+export const subRaceModel = [
+	{ id: 'sr0', sourceId: "b0", raceId: 'r0', name: 'hill' },
+	{ id: 'sr1', sourceId: "b0", raceId: 'r0', name: 'mountain' },
+	{ id: 'sr2', sourceId: "b0", raceId: 'r2', name: 'drow' },
+	{ id: 'sr3', sourceId: "b0", raceId: 'r2', name: 'high' },
+	{ id: 'sr4', sourceId: "b0", raceId: 'r2', name: 'wood' },
+	{ id: 'sr5', sourceId: "b0", raceId: 'r3', name: 'forest' },
+	{ id: 'sr6', sourceId: "b0", raceId: 'r3', name: 'rock' },
+	{ id: 'sr7', sourceId: "b0", raceId: 'r4', name: 'lightfoot' },
+	{ id: 'sr8', sourceId: "b0", raceId: 'r4', name: 'stout' },
+	{ id: 'sr9', sourceId: "b0", raceId: 'r7', name: 'normal' },
+	{ id: 'sr10', sourceId: "b0", raceId: 'r7', name: 'variant' },
+];
+
+export const bonusModel = [
+	{ id: 0, parentId: 'r0', name: 'constitution', value: 2 },
+	{ id: 1, parentId: 'r1', name: 'strength', value: 2 },
+	{ id: 2, parentId: 'r1', name: 'charisma', value: 1 },
+	{ id: 3, parentId: 'r2', name: 'dexterity', value: 2 },
+	{ id: 4, parentId: 'r3', name: 'intelligence', value: 2 },
+	{ id: 5, parentId: 'r4', name: 'dexterity', value: 2 },
+	{ id: 6, parentId: 'r6', name: 'strength', value: 2 },
+	{ id: 7, parentId: 'r6', name: 'constitution', value: 1 },
+	{ id: 8, parentId: 'r8', name: 'intelligence', value: 1 },
+	{ id: 9, parentId: 'r8', name: 'charisma', value: 2 },
+
+	{ id: 10, parentId: 'sr9', name: 'strength', value: 1 },
+	{ id: 11, parentId: 'sr9', name: 'dexterity', value: 1 },
+	{ id: 12, parentId: 'sr9', name: 'constitution', value: 1 },
+	{ id: 13, parentId: 'sr9', name: 'intelligence', value: 1 },
+	{ id: 14, parentId: 'sr9', name: 'wisdom', value: 1 },
+	{ id: 15, parentId: 'sr9', name: 'charisma', value: 1 },
+	{ id: 16, parentId: 'sr0', name: 'wisdom', value: 1 },
+	{ id: 17, parentId: 'sr1', name: 'strength', value: 2 },
+	{ id: 18, parentId: 'sr2', name: 'charisma', value: 1 },
+	{ id: 19, parentId: 'sr3', name: 'intelligence', value: 1 },
+	{ id: 20, parentId: 'sr4', name: 'wisdom', value: 1 },
+	{ id: 21, parentId: 'sr5', name: 'dexterity', value: 1 },
+	{ id: 22, parentId: 'sr6', name: 'constitution', value: 1 },
+	{ id: 23, parentId: 'sr7', name: 'charisma', value: 1 },
+	{ id: 24, parentId: 'sr8', name: 'constitution', value: 1 },
 ];

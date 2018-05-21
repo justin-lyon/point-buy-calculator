@@ -19,30 +19,30 @@
 						</v-flex>
 				</v-layout>
 
-				<v-layout row justify-center>
+				<v-layout row wrap justify-center>
 					<v-flex xs12
 						:md3="subRaceOptions"
 						:md6="!subRaceOptions"
 						:lg4="subRaceOptions"
-						:lg8="!subRaceOptions" >
+						:lg8="!subRaceOptions">
 						<v-select
 							label="Race"
-							v-model="selectedRace"
-							:items="raceOptions"></v-select>
+							v-model="race"
+							:items="raceOptions" ></v-select>
 					</v-flex>
-					<v-flex xs12 md3 lg4 v-if="subRaceOptions">
+
+					<v-flex xs12 md3 lg4 v-if="subRaceOptions" >
 						<v-select
 							label="Subrace"
-							v-model="selectedSubRace"
-							:items="subRaceOptions"></v-select>
+							v-model="subRace"
+							:items="subRaceOptions" ></v-select>
 					</v-flex>
 				</v-layout>
 
-				<v-layout row wrap justify-center v-if="selectedRace === 'Half-elf'">
-					<v-flex
-						xs4 md2
-						v-for="ab in abilityOptions"
-						:key="ab">
+				<v-layout row wrap justify-center >
+					<v-flex v-if="selectedRace === 'r5' || selectedSubRace === 'sr10'"
+						v-for="ab in abilityOptions" :key="ab"
+						xs4 md2 >
 
 						<v-checkbox v-model="selectedAbilities"
 							:label="ab | truncate(3) | capitalize"
@@ -54,7 +54,7 @@
 
 				<v-layout row v-if="$vuetify.breakpoint.smAndDown">
 					<v-flex xs12>
-						<app-accordion :bonuses="bonuses"
+						<app-accordion :bonuses="racialBonuses"
 							:activeAbility="activeAbility"
 							@focused="handleFocusedAbility"></app-accordion>
 					</v-flex>
@@ -62,7 +62,7 @@
 
 				<v-layout row v-if="$vuetify.breakpoint.mdAndUp">
 					<v-flex xs12>
-						<app-table :bonuses="bonuses"></app-table>
+						<app-table :bonuses="racialBonuses"></app-table>
 					</v-flex>
 				</v-layout>
 
@@ -80,8 +80,6 @@ import Table from "./PointBuy/Datatable";
 import Accordion from "./PointBuy/AbilityAccordion";
 import Buttons from "./PointBuy/AbilityButtons";
 
-import { maxLength } from "vuelidate/lib/validators";
-import { races } from "../plugins/point-buy";
 import { pascalizeWord, truncate, capitalize } from "../filters";
 
 import { mapGetters, mapMutations } from "vuex";
@@ -90,60 +88,56 @@ export default {
 	name: "PointBuyPage",
 	data() {
 		return {
-			selectedRace: "Human",
-			selectedSubRace: "",
 			selectedAbilities: [],
 			activeAbility: "strength",
+			isVariantHuman: false,
 		};
 	},
 
 	computed: {
-		...mapGetters([
+		...mapGetters("PointBuy", [
 			"availablePoints",
+			"remainingPoints",
 			"abilities",
-			"abilityNames",
-			"spent",
-			"remainingPoints"
+			"selectedRace",
+			"selectedSubRace",
+			"races",
+			"subRaces",
+			"raceOptions",
+			"subRaceOptions",
+			"bonuses"
 		]),
 		available: {
-			get() {
-				return this.availablePoints;
-			},
-			set(val) {
-				this.setAvailable(val);
-			}
+			get() { return this.availablePoints; },
+			set(val) { this.setAvailable(val); }
 		},
-		raceOptions() {
-			return races.map(r => pascalizeWord(r.name));
+		race: {
+			get() { return this.selectedRace; },
+			set(val) { this.setRace(val); this.selectedAbilities = []; }
 		},
-		subRaceOptions() {
-			const race = this.selectedRace.toLowerCase();
-			if(!races.find(r => r.name === race).subRaces) return;
-
-			const subRaces = races.find(r => r.name === race).subRaces.map(s => s.name.charAt(0).toUpperCase() + s.name.slice(1));
-			this.selectedSubRace = subRaces[0];
-			return subRaces;
+		subRace: {
+			get() { return this.selectedSubRace; },
+			set(val) { this.setSubRace(val); }
 		},
 		abilityOptions() {
-			return this.abilities.filter(name => name !== "charisma");
-		},
-		bonuses() {
-			const race = races.find(r => r.name === this.selectedRace.toLowerCase());
-			const bonuses = race.subRaces ? race.subRaces.find(sr => sr.name === this.selectedSubRace.toLowerCase()).bonuses : race.bonuses;
-
-			const returnable = [];
-			if(this.selectedRace === 'Half-elf') {
-				const selectedBonuses = this.selectedAbilities.map(ab => ({ name: ab.toLowerCase(), value: 1 }));
-				returnable.push(...selectedBonuses);
+			if(this.selectedRace === "r5") {
+				return this.abilities.filter(a => a !== "charisma");
 			}
-			returnable.push(...bonuses);
-			return returnable;
+			return this.abilities;
 		},
+		racialBonuses() {
+			if(this.selectedRace === "r5" || this.selectedSubRace === "sr10") {
+				return this.selectedAbilities.map(ab => ({ name: ab, value: 1 }));
+			}
+			return this.bonuses;
+		}
 	},
 
 	methods: {
-		...mapMutations({
-			setAvailable: "availablePoints"
+		...mapMutations("PointBuy", {
+			setAvailable: "availablePoints",
+			setRace: "selectedRace",
+			setSubRace: "selectedSubRace"
 		}),
 		handleFocusedAbility(ab) {
 			this.activeAbility = this.activeAbility === ab ? "" : ab;
