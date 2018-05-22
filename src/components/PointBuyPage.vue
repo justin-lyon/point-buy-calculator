@@ -2,6 +2,12 @@
 	<v-card>
 		<v-card-text>
 			<v-container fluid grid-list-xl>
+				<v-layout row text-xs-center>
+					<v-flex>
+						<app-sources></app-sources>
+					</v-flex>
+				</v-layout>
+
 				<v-layout row justify-center>
 					<v-flex x12 md3 lg4>
 						<v-text-field
@@ -76,11 +82,12 @@
 
 <script>
 import Gauge from "./PointBuy/RemainingGauge";
+import Sources from "./PointBuy/BookPicker";
 import Table from "./PointBuy/Datatable";
 import Accordion from "./PointBuy/AbilityAccordion";
 import Buttons from "./PointBuy/AbilityButtons";
 
-import { pascalizeWord, truncate, capitalize } from "../filters";
+import { pascalize, truncate, capitalize } from "../filters";
 
 import { mapGetters, mapMutations } from "vuex";
 
@@ -145,13 +152,14 @@ export default {
 	},
 
 	filters: {
-		pascalizeWord,
+		pascalize,
 		truncate,
 		capitalize
 	},
 
 	components: {
 		appGauge: Gauge,
+		appSources: Sources,
 		appAccordion: Accordion,
 		appTable: Table,
 		appButtons: Buttons,

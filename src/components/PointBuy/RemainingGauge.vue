@@ -29,6 +29,7 @@ export default {
 	},
 	computed: {
 		...mapGetters("PointBuy", [
+			"availablePoints",
 			"remainingPoints",
 		]),
 		remainingPercent() {
