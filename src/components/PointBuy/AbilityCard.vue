@@ -9,7 +9,7 @@
 				</v-flex>
 				<v-flex xs4 >
 					<div class="grey--text text--lighten-1">Racial</div>
-					<div><span :class="greenText">{{ racial }}</span></div>
+					<div><span :class="'subheading' + textColor(racial)">{{ racial }}</span></div>
 				</v-flex>
 				<v-flex xs4 >
 					<div class="grey--text text--lighten-1">Score</div>
@@ -17,7 +17,7 @@
 				</v-flex>
 				<v-flex xs4 >
 					<div class="grey--text text--lighten-1">Modifier</div>
-					<div><span :class="redText">{{ modifier }}</span></div>
+					<div><span :class="'subheading' + textColor(modifier)">{{ modifier }}</span></div>
 				</v-flex>
 				<v-flex xs4 >
 					<div class="grey--text text--lighten-1">Cost</div>
@@ -50,6 +50,13 @@ export default {
 		},
 		greenText() {
 			return this.racial > 0 ? "subheading green--text" : "";
+		},
+	},
+
+	methods: {
+		textColor(val) {
+			return val === 0 ? "" :
+				val < 0 ? " red--text" : " green--text";
 		},
 	},
 

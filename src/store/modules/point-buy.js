@@ -1,6 +1,6 @@
 import { getCost, races } from "../../plugins/point-buy";
 import { pascalize } from "../../filters";
-import api from "../../api";
+import * as pb from "../../api/point-buy";
 
 const state = {
 	availablePoints: 27,
@@ -24,7 +24,7 @@ const state = {
 	wisdom: 8,
 	charisma: 8,
 
-	sources: api.pb.getSources(),
+	sources: pb.getSources(),
 };
 
 const getters = {
@@ -51,17 +51,32 @@ const getters = {
 	remainingPoints: (state, { spent }) => Number(state.availablePoints - spent),
 
 	sources: state => state.sources,
-	races: state => api.pb.getRacesBySource(state.selectedResources),
-	subRaces: state => api.pb.getSubRacesByRace(state.selectedRace, state.selectedResources),
-	bonuses: state => api.pb.getBonusesByParent([state.selectedRace, state.selectedSubRace]),
+	races: state => pb.getRacesBySource(state.selectedResources),
+	subRaces: state => pb.getSubRacesByRace(state.selectedRace, state.selectedResources),
+	bonuses: state => pb.getBonusesByParent([state.selectedRace, state.selectedSubRace]),
 
-	raceOptions: (state, getters) => getters.races.map(r => ({ text: pascalize(r.name), value: r.id })).sort((a, b) => {
-		const aText = a.text.toLowerCase();
-		const bText = b.text.toLowerCase();
-		return aText < bText ? -1 : aText > bText ? 1 : 0;
-	}),
+	raceOptions: (state, getters) => {
+		const options = getters.races
+			.map(r => ({ text: pascalize(r.name), value: r.id }))
+			.sort((a, b) => {
+				const aText = a.text.toLowerCase();
+				const bText = b.text.toLowerCase();
+				return aText < bText ? -1 : aText > bText ? 1 : 0;
+			});
+		const race = pb.getRaceById(state.selectedRace);
+		if(!state.selectedResources.includes(race.sourceId)) {
+			state.selectedRace = options[0].value
+		}
+		return options;
+	},
 	subRaceOptions: (state, getters) => {
-		const options = getters.subRaces.map(sr => ({ text: pascalize(sr.name), value: sr.id }));
+		const options = getters.subRaces
+			.map(sr => ({ text: pascalize(sr.name), value: sr.id }))
+			.sort((a, b) => {
+				const aText = a.text.toLowerCase();
+				const bText = b.text.toLowerCase();
+				return aText < bText ? -1 : aText > bText ? 1 : 0;
+			});
 		if(options.length) {
 			state.selectedSubRace = options[0].value;
 			return options;
