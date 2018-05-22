@@ -19,9 +19,9 @@
 					></v-text-field>
 			</div>
 		</td>
-		<td class="text-xs-center" :class="'subheading' + textColor(racialBonus)" >{{ racialBonus }}</td>
+		<td class="text-xs-center" :class="textColor(racialBonus)" >{{ racialBonus }}</td>
 		<td class="text-xs-center" >{{ totalScore }}</td>
-		<td class="text-xs-center" :class="'subheading' + textColor(modifier)" >{{ modifier }}</td>
+		<td class="text-xs-center" :class="textColor(modifier)" >{{ modifier }}</td>
 		<td class="text-xs-center" >{{ cost }}</td>
 	</tr>
 </template>
@@ -101,8 +101,9 @@ export default {
 
 	methods: {
 		textColor(val) {
-			return val === 0 ? "" :
+			const color = val === 0 ? "" :
 				val < 0 ? " red--text" : " green--text";
+			return "subheading" + color;
 		},
 	},
 
