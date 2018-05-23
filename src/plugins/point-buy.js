@@ -25,6 +25,7 @@ export const validateNextCost = (currentScore, remaining) => {
 export const sourceModel = [
 	{ id: "b0", name: "player's handbook", abbr: "phb" },
 	{ id: "b1", name: "volo's guide to monsters", abbr: "vgm" },
+	{ id: "b2", name: "mordenkainen's tome of foes", abbr: "mtf" },
 ];
 
 export const raceModel = [
@@ -50,6 +51,8 @@ export const raceModel = [
 	{ id: 'r18', sourceId: "b1", name: 'tabaxi' },
 	{ id: 'r19', sourceId: "b1", name: 'triton' },
 	{ id: 'r20', sourceId: "b1", name: 'yuan-ti pureblood' },
+
+	{ id: 'r21', sourceId: "b2", name: 'gith' },
 ];
 
 export const subRaceModel = [
@@ -68,6 +71,14 @@ export const subRaceModel = [
 	{ id: 'sr11', sourceId: "b1", raceId: 'r9', name: 'protector' },
 	{ id: 'sr12', sourceId: "b1", raceId: 'r9', name: 'scourge' },
 	{ id: 'sr13', sourceId: "b1", raceId: 'r9', name: 'fallen' },
+
+	{ id: 'sr14', sourceId: "b2", raceId: 'r21', name: 'githyanki' },
+	{ id: 'sr15', sourceId: "b2", raceId: 'r21', name: 'githzerai' },
+	{ id: 'sr16', sourceId: "b2", raceId: 'r2', name: 'eladrin' },
+	{ id: 'sr17', sourceId: "b2", raceId: 'r2', name: 'sea elf' },
+	{ id: 'sr18', sourceId: "b2", raceId: 'r2', name: 'shadar-kai' },
+	{ id: 'sr19', sourceId: "b2", raceId: 'r0', name: 'duergar' },
+	{ id: 'sr20', sourceId: "b2", raceId: 'r3', name: 'deep' },
 ];
 
 export const bonusModel = [
@@ -93,20 +104,22 @@ export const bonusModel = [
 	{ id: "b34", parentId: 'r13', name: 'intelligence', value: 1 },
 	{ id: "b35", parentId: 'r14', name: 'dexterity', value: 2 },
 	{ id: "b36", parentId: 'r14', name: 'wisdom', value: 1 },
-	{ id: "b36", parentId: 'r15', name: 'strength', value: -2 },
-	{ id: "b36", parentId: 'r15', name: 'dexterity', value: 2 },
-	{ id: "b36", parentId: 'r16', name: 'constitution', value: 2 },
-	{ id: "b36", parentId: 'r16', name: 'wisdom', value: 1 },
-	{ id: "b36", parentId: 'r17', name: 'strength', value: 2 },
-	{ id: "b36", parentId: 'r17', name: 'constitution', value: 1 },
-	{ id: "b36", parentId: 'r17', name: 'intelligence', value: -2 },
-	{ id: "b36", parentId: 'r18', name: 'dexterity', value: 2 },
-	{ id: "b36", parentId: 'r18', name: 'charisma', value: 1 },
-	{ id: "b36", parentId: 'r19', name: 'strength', value: 1 },
-	{ id: "b36", parentId: 'r19', name: 'constitution', value: 1 },
-	{ id: "b36", parentId: 'r19', name: 'charisma', value: 1 },
-	{ id: "b36", parentId: 'r20', name: 'intelligence', value: 1 },
-	{ id: "b36", parentId: 'r20', name: 'charisma', value: 2 },
+	{ id: "b37", parentId: 'r15', name: 'strength', value: -2 },
+	{ id: "b38", parentId: 'r15', name: 'dexterity', value: 2 },
+	{ id: "b39", parentId: 'r16', name: 'constitution', value: 2 },
+	{ id: "b40", parentId: 'r16', name: 'wisdom', value: 1 },
+	{ id: "b41", parentId: 'r17', name: 'strength', value: 2 },
+	{ id: "b42", parentId: 'r17', name: 'constitution', value: 1 },
+	{ id: "b43", parentId: 'r17', name: 'intelligence', value: -2 },
+	{ id: "b44", parentId: 'r18', name: 'dexterity', value: 2 },
+	{ id: "b45", parentId: 'r18', name: 'charisma', value: 1 },
+	{ id: "b46", parentId: 'r19', name: 'strength', value: 1 },
+	{ id: "b47", parentId: 'r19', name: 'constitution', value: 1 },
+	{ id: "b48", parentId: 'r19', name: 'charisma', value: 1 },
+	{ id: "b49", parentId: 'r20', name: 'intelligence', value: 1 },
+	{ id: "b50", parentId: 'r20', name: 'charisma', value: 2 },
+
+	{ id: "b51", parentId: 'r21', name: 'intelligence', value: 1 },
 
 	{ id: "b10", parentId: 'sr9', name: 'strength', value: 1 },
 	{ id: "b11", parentId: 'sr9', name: 'dexterity', value: 1 },
@@ -125,6 +138,15 @@ export const bonusModel = [
 	{ id: "b24", parentId: 'sr8', name: 'constitution', value: 1 },
 
 	{ id: "b26", parentId: 'sr11', name: 'wisdom', value: 1 },
-	{ id: "b26", parentId: 'sr12', name: 'constitution', value: 1 },
-	{ id: "b26", parentId: 'sr13', name: 'strength', value: 1 },
+	{ id: "b52", parentId: 'sr12', name: 'constitution', value: 1 },
+	{ id: "b53", parentId: 'sr13', name: 'strength', value: 1 },
+	{ id: "b54", parentId: 'sr13', name: 'strength', value: 1 },
+
+	{ id: "b54", parentId: 'sr14', name: 'strength', value: 2 },
+	{ id: "b54", parentId: 'sr15', name: 'wisdom', value: 2 },
+	{ id: "b54", parentId: 'sr16', name: 'charisma', value: 1 },
+	{ id: "b54", parentId: 'sr17', name: 'constitution', value: 1 },
+	{ id: "b54", parentId: 'sr18', name: 'constitution', value: 1 },
+	{ id: "b54", parentId: 'sr19', name: 'strength', value: 1 },
+	{ id: "b54", parentId: 'sr20', name: 'dexterity', value: 1 },
 ];
