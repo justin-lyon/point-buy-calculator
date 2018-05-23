@@ -6,6 +6,7 @@ export const getRaces = () => raceModel;
 export const getRacesBySource = sourceIds => raceModel
 	.filter(r => sourceIds.includes(r.sourceId));
 export const getRaceById = id => raceModel.find(r => r.id === id);
+export const getRacesByIds = ids => raceModel.filter(r => ids.includes(r.id));
 
 export const getSubRacesByRace = (raceId, sourceIds) => subRaceModel
 	.filter(sr => sr.raceId === raceId && sourceIds.includes(sr.sourceId));
