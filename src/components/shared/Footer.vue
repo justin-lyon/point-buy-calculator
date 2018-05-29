@@ -1,5 +1,5 @@
 <template>
-	<v-footer app absolute class="" height="auto">
+	<v-footer app absolute class="pa-1" height="auto">
 
 		<v-layout row wrap justify-center>
 			<v-flex xs12 text-xs-center>
