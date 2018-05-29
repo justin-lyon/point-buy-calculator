@@ -2,7 +2,7 @@
 	<v-toolbar app >
 		<v-avatar
 			size="36px">
-			<img :src="image" alt="dnd-ampersand">
+			<img :src="image" alt="dnd-ampersand-red">
 		</v-avatar>
 		<v-toolbar-title>Pretty Point Buy</v-toolbar-title>
 		<v-spacer></v-spacer>
@@ -15,7 +15,7 @@
 
 <script>
 import Gauge from "../PointBuy/RemainingGauge";
-import img from "../../assets/dnd-ampersand.png";
+import img from "../../assets/dnd-ampersand-red.png";
 
 export default {
 	name: "Header",
