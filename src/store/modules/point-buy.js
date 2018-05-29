@@ -51,8 +51,8 @@ const getters = {
 	remainingPoints: (state, { spent }) => Number(state.availablePoints - spent),
 
 	sources: state => state.sources,
-	races: state => pb.getRacesBySource(state.selectedResources),
-	subRaces: state => pb.getSubRacesByRace(state.selectedRace, state.selectedResources),
+	races: state => pb.getRacesBySourceIds(state.selectedResources),
+	subRaces: state => pb.getSubracesByRaceAndSource(state.selectedRace, state.selectedResources),
 	bonuses: state => pb.getBonusesByParent([state.selectedRace, state.selectedSubRace]),
 
 	raceOptions: (state, getters) => {
@@ -63,8 +63,8 @@ const getters = {
 				const bText = b.text.toLowerCase();
 				return aText < bText ? -1 : aText > bText ? 1 : 0;
 			});
-		const race = pb.getRaceById(state.selectedRace);
-		if(!state.selectedResources.includes(race.sourceId)) {
+		const racesBySources = pb.getRaceIdsBySourceIds(state.selectedResources);
+		if(!racesBySources.includes(state.selectedRace)) {
 			state.selectedRace = options[0].value
 		}
 		return options;
