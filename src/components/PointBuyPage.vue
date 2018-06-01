@@ -18,7 +18,7 @@
 							min="1"></v-text-field>
 						</v-flex>
 
-						<v-flex md3 lg4 v-if="$vuetify.breakpoint.mdAndUp">
+						<v-flex md3 lg4 v-if="$vuetify.breakpoint.lgAndUp">
 							<div class="text-xs-center" >
 								<app-gauge size="100" :width="15" ></app-gauge>
 							</div>
@@ -58,7 +58,7 @@
 					</v-flex>
 				</v-layout>
 
-				<v-layout row v-if="$vuetify.breakpoint.smAndDown">
+				<v-layout row v-if="$vuetify.breakpoint.mdAndDown">
 					<v-flex xs12>
 						<app-accordion :bonuses="racialBonuses"
 							:activeAbility="activeAbility"
@@ -66,14 +66,14 @@
 					</v-flex>
 				</v-layout>
 
-				<v-layout row v-if="$vuetify.breakpoint.mdAndUp">
+				<v-layout row v-if="$vuetify.breakpoint.lgAndUp">
 					<v-flex xs12>
 						<app-table :bonuses="racialBonuses"></app-table>
 					</v-flex>
 				</v-layout>
 
 			</v-container>
-			<app-buttons v-if="activeAbility && $vuetify.breakpoint.smAndDown"
+			<app-buttons v-if="activeAbility && $vuetify.breakpoint.mdAndDown"
 				:abilityName="activeAbility"></app-buttons>
 
 		</v-card-text>
