@@ -133,7 +133,9 @@ export default {
 			return this.abilities;
 		},
 		racialBonuses() {
-			if(this.selectedRace === "r5" || this.selectedSubRace === "sr10") {
+			if(this.selectedRace === "r5") {
+				return this.selectedAbilities.map(ab => ({ name: ab, value: 1 })).concat(this.bonuses);
+			} else if(this.selectedSubRace === "sr10") {
 				return this.selectedAbilities.map(ab => ({ name: ab, value: 1 }));
 			}
 			return this.bonuses;

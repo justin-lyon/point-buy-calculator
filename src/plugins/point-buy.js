@@ -88,6 +88,7 @@ export const bonusModel = [
 	{ id: "bo3", parentId: 'r2', name: 'dexterity', value: 2 },
 	{ id: "bo4", parentId: 'r3', name: 'intelligence', value: 2 },
 	{ id: "bo5", parentId: 'r4', name: 'dexterity', value: 2 },
+	{ id: "b62", parentId: 'r5', name: 'charisma', value: 2 },
 	{ id: "bo6", parentId: 'r6', name: 'strength', value: 2 },
 	{ id: "bo7", parentId: 'r6', name: 'constitution', value: 1 },
 	{ id: "bo8", parentId: 'r8', name: 'intelligence', value: 1 },
