@@ -23,6 +23,5 @@
 <script>
 export default {
 	name: "Footer"
-	// grey--text text--lighten-1
 }
 </script>
